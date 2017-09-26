@@ -1,13 +1,13 @@
 #ifndef NOTESWINDOW_H
 #define NOTESWINDOW_H
 
-#include <QMainWindow>
+#include <QWidget>
 
 namespace Ui {
 class NotesWindow;
 }
 
-class NotesWindow : public QMainWindow
+class NotesWindow : public QWidget
 {
     Q_OBJECT
 
