@@ -1,3 +1,7 @@
 *.pro.user
+<<<<<<< HEAD
 build-VENotes-Desktop_Qt_5_9_1_MinGW_32bit-Debug/
-build-VENotes-Desktop_Qt_5_9_1_MinGW_32bit-Release/
+build-VENotes-Desktop_Qt_5_9_1_MinGW_32bit-Release/build-VENotes-Desktop_Qt_5_9_1_MinGW_32bit-Release/
+=======
+/*.user
+>>>>>>> 55ad0f183efdb0a1062c0012c2a573ff76f1d06f
