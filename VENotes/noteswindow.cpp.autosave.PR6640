@@ -4,7 +4,6 @@
 #include <QMessageBox>
 #include <QXmlStreamReader>
 #include <QXmlStreamWriter>
-#include <QFile>
 
 struct note {
     QString nameOfNote;
@@ -14,7 +13,6 @@ struct note {
 };
 QString noteLocation = "resources/Notes/";
 QString username = "";
-QList<note> notesList;
 
 NotesWindow::NotesWindow(QWidget *parent) :
     QWidget(parent),
@@ -72,45 +70,22 @@ void NotesWindow::setEnabledToRegOk()
 void NotesWindow::readXML() {
     QFile xmlFile(noteLocation + ".xml");
     note buf;
-
-    if(!xmlFile.open(QFile::ReadOnly)) {
-        return;
+    if(!xmlFile.exists()) {
+        xmlFile.open(QIODevice::ReadOnly);
+        xmlFile.close();
     }
-
     QXmlStreamReader reader(&xmlFile);
-    while(reader.readNextStartElement()) {
-        if(reader.name() == "nameOfNote") {
-            buf.nameOfNote = reader.readElementText();
-        }
-        if(reader.name() == "textOfNote") {
-            buf.textOfNote = reader.readElementText();
-        }
-        if(reader.name() == "dateOfChanges") {
-            buf.dateOfChanges = reader.readElementText();
-        }
-        if(reader.name() == "dateOfNotification") {
-            buf.dateOfNotification = reader.readElementText();
-            notesList.push_back(buf);
+    while(!reader.atEnd()) {
+        QXmlStreamReader::TokenType token = reader.readNext();
+        
+        if(token == QXmlStreamReader::StartDocument)
+            continue;
+        if(token == QXmlStreamReader::StartElement) {
+            QXmlStreamAttributes attributes = reader.attributes();
+            
+            if(reader.name() == "nameOfNote") {
+                
+            }
         }
     }
-}
-
-void NotesWindow::WriteXML() {
-    QFile xmlFile(noteLocation + ".xml");
-    xmlFile.open(QIODevice::WriteOnly);
-    QXmlStreamWriter writer(&xmlFile);
-
-    writer.setAutoFormatting(true);
-    writer.setCodec("UTF-8");
-
-    for(int i = 0; i < notesList.size(); i++) {
-        writer.writeTextElement("nameOfNote", notesList[i].nameOfNote);
-        writer.writeTextElement("textOfNote", notesList[i].textOfNote);
-        writer.writeTextElement("dateOfChanges", notesList[i].dateOfChanges);
-        writer.writeTextElement("dateOfNotification", notesList[i].dateOfNotification);
-
-    }
-
-    writer.writeEndElement();
-    xmlFile.close();
 }
