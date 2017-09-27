@@ -18,11 +18,6 @@ public:
 private slots:
     void createAccount();
     void setEnabledToRegOk();
-<<<<<<< HEAD
-    void noteWindow();
-    void ReadXML(List<note> &litOfNotes);
-=======
->>>>>>> 59ed8b81ef4c41685d5979709dcca6c5d865506f
 
 private:
     Ui::NotesWindow *ui;

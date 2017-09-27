@@ -2,14 +2,10 @@
 #include "ui_noteswindow.h"
 #include <QPushButton>
 #include <QMessageBox>
-#include <QList>
-#include <QFile>
-#include <QXmlStreamReader>
-#include <QXmlStreamWriter>
 
 struct note {
     QString nameOfNote;
-    QString note;
+    QString textOfNote;
     QString dateOfChanges;
     QString dateOfNotification;
 };
@@ -67,38 +63,4 @@ void NotesWindow::setEnabledToRegOk()
 {
     if(!ui->lineEdit_reg_log->text().isEmpty() && !ui->lineEdit_reg_pass->text().isEmpty() && !ui->lineEdit_reg_pass_check->text().isEmpty() && !ui->lineEdit_reg_email->text().isEmpty())
         ui->buttonBox_in_reg->button(QDialogButtonBox::Ok)->setEnabled(true);
-}
-
-void NotesWindow::noteWindow() {
-    ui->stackedWidget->setCurrentIndex(2);
-    List<note> listOfNotes;
-    ReadXML(listOfNotes);
-}
-
-void NotesWindow::ReadXML(List<note> &listOfNotes) {
-    QFile xmlFile(username + ".xml");
-    xmlFile.open(QIODevice::ReadOnly);
-    xmlFile.close();
-    note buf;
-    QXmlStreamReader reader(&xmlFile);
-
-    while(!reader.atEnd() || !reader.hasError()) {
-        QXmlStreamReader::tokenType() = reader.readNext();
-        if(token == QXmlStreamReader::StartElement) {
-            if(reader.name() == "nameOfNote") {
-                buf.nameOfNote = reader.readElementText();
-            }
-            if(reader.name() == "note") {
-                buf.note = reader.readElementText();
-            }
-            if(reader.name() == "dateOfChanges") {
-                buf.dateOfChanges = reader.readElementText();
-            }
-            if(reader.name() == "dateOfNotification") {
-                buf.dateOfNotification = reader.readElementText();
-            }
-        }
-        if(token == QXmlStreamReader::EndElement)
-            emit
-    }
 }
