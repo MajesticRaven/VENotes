@@ -2,18 +2,22 @@
 #include "ui_noteswindow.h"
 #include <QPushButton>
 #include <QMessageBox>
-#include <QXmlStreamReader>
-#include <QXmlStreamWriter>
 #include <QFile>
+#include <QDate>
+#include <QIODevice>
+#include <QTextStream>
+#include <QListWidgetItem>
 
 struct note {
     QString nameOfNote;
     QString textOfNote;
     QString dateOfChanges;
-    QString dateOfNotification;
+    QString dateOfNotification = "0";
+    int ID = -1;
 };
+int openID = -1;
 QString noteLocation = "resources/Notes/";
-QString username = "";
+QString username = "pavlenko";
 QList<note> notesList;
 
 NotesWindow::NotesWindow(QWidget *parent) :
@@ -21,6 +25,9 @@ NotesWindow::NotesWindow(QWidget *parent) :
     ui(new Ui::NotesWindow)
 {
     ui->setupUi(this);
+
+    showNotes();
+
     ui->buttonBox_in_reg->button(QDialogButtonBox::Ok)->setEnabled(false);
     ui->buttonBox_in_reg->button(QDialogButtonBox::Ok)->setText(tr("Створити"));
     ui->buttonBox_in_reg->button(QDialogButtonBox::Cancel)->setText(tr("Скасувати"));
@@ -70,47 +77,171 @@ void NotesWindow::setEnabledToRegOk()
 }
 
 void NotesWindow::readXML() {
-    QFile xmlFile(noteLocation + ".xml");
-    note buf;
-
-    if(!xmlFile.open(QFile::ReadOnly)) {
-        return;
+    notesList.clear();
+    QFile readFrom(noteLocation + username + ".txt");
+    readFrom.open(QIODevice::ReadOnly);
+    QString str = "";
+    note bufForNotes;
+    while(!readFrom.atEnd()) {
+        QString buf;
+        buf = readFrom.readLine();
+        if(buf.contains("<nameOfNote>")) {
+            str.clear();
+        }
+        else if(buf.contains("<textOfNote>")) {
+            bufForNotes.nameOfNote = str.mid(0, str.indexOf('\n'));
+            str.clear();
+        }
+        else if(buf.contains("<dateOfChanges>")) {
+            bufForNotes.textOfNote = str;
+            str.clear();
+        }
+        else if(buf.contains("<dateOfNotification>")) {
+            bufForNotes.dateOfChanges = str.mid(0, str.indexOf('\n'));
+            str.clear();
+        }
+        else if(buf.contains("<endOfNote>")) {
+            bufForNotes.dateOfNotification = str.mid(0, str.indexOf('\n'));
+            str.clear();
+            bufForNotes.ID = notesList.size();
+            notesList.push_back(bufForNotes);
+        }
+        else {
+            str += buf;
+        }
     }
-
-    QXmlStreamReader reader(&xmlFile);
-    while(reader.readNextStartElement()) {
-        if(reader.name() == "nameOfNote") {
-            buf.nameOfNote = reader.readElementText();
-        }
-        if(reader.name() == "textOfNote") {
-            buf.textOfNote = reader.readElementText();
-        }
-        if(reader.name() == "dateOfChanges") {
-            buf.dateOfChanges = reader.readElementText();
-        }
-        if(reader.name() == "dateOfNotification") {
-            buf.dateOfNotification = reader.readElementText();
-            notesList.push_back(buf);
-        }
-    }
+    readFrom.close();
 }
 
 void NotesWindow::WriteXML() {
-    QFile xmlFile(noteLocation + ".xml");
-    xmlFile.open(QIODevice::WriteOnly);
-    QXmlStreamWriter writer(&xmlFile);
-
-    writer.setAutoFormatting(true);
-    writer.setCodec("UTF-8");
-
+    QFile writeTo(noteLocation + username + ".txt");
+    writeTo.open(QFile::WriteOnly);
+    QString fileContain = "";
     for(int i = 0; i < notesList.size(); i++) {
-        writer.writeTextElement("nameOfNote", notesList[i].nameOfNote);
-        writer.writeTextElement("textOfNote", notesList[i].textOfNote);
-        writer.writeTextElement("dateOfChanges", notesList[i].dateOfChanges);
-        writer.writeTextElement("dateOfNotification", notesList[i].dateOfNotification);
+        fileContain += "<nameOfNote>\r\n";
+        fileContain += notesList[i].nameOfNote;
+        fileContain += "\r\n<textOfNote> \r\n";
+        fileContain += notesList[i].textOfNote;
+        fileContain += "\r\n<dateOfChanges> \r\n";
+        fileContain += notesList[i].dateOfChanges;
+        fileContain += "\r\n<dateOfNotification> \r\n";
+        fileContain += notesList[i].dateOfNotification;
+        fileContain += "\r\n<endOfNote>\r\n";
+    }
+    QTextStream out(&writeTo);
+    out.setCodec("UTF-8");
+    out << fileContain;
+    writeTo.close();
+}
 
+void NotesWindow::on_fontComboBox_activated() {
+    ui->notesText->setFont(ui->fontComboBox->currentFont());
+}
+
+void NotesWindow::on_spinBox_valueChanged() {
+    ui->notesText->setStyleSheet("font: " + QString::number(ui->spinBox->value()) + "pt;");
+}
+
+void NotesWindow::showNotes() {
+    ui->notesName->setEnabled(false);
+    ui->notesText->setEnabled(false);
+    ui->spinBox->setEnabled(false);
+    ui->fontComboBox->setEnabled(false);
+    ui->stackedWidget->setCurrentIndex(2);
+    readXML();
+    makeListOfNotes();
+}
+
+
+void NotesWindow::on_saveNoteButton_clicked() {
+    QDate now = QDate::currentDate();
+    note buf;
+
+
+    buf.nameOfNote = ui->notesName->text();
+    for(int i = 0; i < notesList.size(); i++) {
+        if(ui->notesName->text() == notesList[i].nameOfNote && openID != notesList[i].ID) {
+            QMessageBox::critical(this, "Помилка", "Оберiть оригiнальну назву нотатка!");
+            return;
+        }
+    }
+    buf.textOfNote = ui->notesText->toPlainText();
+    buf.dateOfChanges = now.toString();
+    buf.ID = openID;
+
+    if(buf.ID != -1) {
+        notesList[buf.ID].dateOfChanges = buf.dateOfChanges;
+        notesList[buf.ID].nameOfNote = buf.nameOfNote;
+        notesList[buf.ID].textOfNote = buf.textOfNote;
+    }
+    else {
+        buf.ID = notesList.size();
+        openID = buf.ID;
+        notesList.push_back(buf);
     }
 
-    writer.writeEndElement();
-    xmlFile.close();
+    WriteXML();
+    makeListOfNotes();
+}
+
+void NotesWindow::makeListOfNotes() {
+    ui->notesShowList->clear();
+    for(int i = 0; i < notesList.size(); i++) {
+        QString obj = notesList[i].nameOfNote + "\r\n";
+        QString comp = notesList[i].textOfNote.mid(0, notesList[i].textOfNote.indexOf('\n'));
+        for(int j = 0; j < 20; j++) {
+                obj += comp[j];
+        }
+        if(comp.size() > 20)
+            obj += "...";
+        ui->notesShowList->addItem(obj);
+    }
+}
+
+void NotesWindow::on_notesShowList_itemDoubleClicked() {
+   QString name = ui->notesShowList->currentItem()->text();
+   int num = name.indexOf('\n');
+   QString nameText = name.mid(0, num - 1);
+   for(int i = 0; i < notesList.size(); i++) {
+       if(notesList[i].nameOfNote == nameText) {
+           ui->notesName->setEnabled(true);
+           ui->notesText->setEnabled(true);
+           ui->spinBox->setEnabled(true);
+           ui->fontComboBox->setEnabled(true);
+
+           ui->notesName->setText(notesList[i].nameOfNote);
+           ui->notesText->setText(notesList[i].textOfNote);
+           openID = notesList[i].ID;
+           break;
+       }
+   }
+}
+
+void NotesWindow::on_newNoteButton_clicked() {
+    ui->notesName->setEnabled(true);
+    ui->notesName->setText("");
+    ui->notesText->setEnabled(true);
+    ui->notesText->setText("");
+    ui->spinBox->setEnabled(true);
+    ui->fontComboBox->setEnabled(true);
+    openID = -1;
+}
+
+
+void NotesWindow::on_deleteNoteButton_clicked() {
+    for(int i = 0; i < notesList.size(); i++) {
+        if(openID == notesList[i].ID) {
+            notesList.erase(notesList.begin() + i);
+        }
+    }
+    openID = -1;
+    ui->notesName->setText("");
+    ui->notesText->setText("");
+    ui->notesName->setEnabled(false);
+    ui->notesText->setEnabled(false);
+    ui->spinBox->setEnabled(false);
+    ui->fontComboBox->setEnabled(false);
+
+    WriteXML();
+    makeListOfNotes();
 }
