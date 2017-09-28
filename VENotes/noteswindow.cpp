@@ -19,8 +19,6 @@ NotesWindow::NotesWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    showNotes();
-
     ui->buttonBox_in_reg->button(QDialogButtonBox::Ok)->setEnabled(false);
     ui->buttonBox_in_reg->button(QDialogButtonBox::Ok)->setText(tr("Створити"));
     ui->buttonBox_in_reg->button(QDialogButtonBox::Cancel)->setText(tr("Скасувати"));
