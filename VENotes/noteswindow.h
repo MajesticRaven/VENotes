@@ -2,6 +2,7 @@
 #define NOTESWINDOW_H
 
 #include <QWidget>
+
 class QValidator;
 
 namespace Ui {
@@ -40,6 +41,20 @@ private slots:
     void on_newNoteButton_clicked();
 
     void on_deleteNoteButton_clicked();
+
+    void createMenu();
+
+    void exitButton();
+
+    void changeAccount();
+
+    void on_notificationButton_clicked();
+
+    void on_CancelButton_clicked();
+
+    void on_OkButton_clicked();
+
+    void on_SearchButton_clicked();
 
 private:
     Ui::NotesWindow *ui;

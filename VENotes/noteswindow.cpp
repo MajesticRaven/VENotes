@@ -7,6 +7,9 @@
 #include <QIODevice>
 #include <QTextStream>
 #include <QListWidgetItem>
+#include <QMenu>
+#include <QAction>
+#include <QDateTime>
 
 struct note {
     QString nameOfNote;
@@ -17,7 +20,7 @@ struct note {
 };
 int openID = -1;
 QString noteLocation = "resources/Notes/";
-QString username = "pavlenko";
+QString username = "";
 QList<note> notesList;
 
 NotesWindow::NotesWindow(QWidget *parent) :
@@ -150,8 +153,28 @@ void NotesWindow::showNotes() {
     ui->stackedWidget->setCurrentIndex(2);
     readXML();
     makeListOfNotes();
+    createMenu();
 }
 
+void NotesWindow::createMenu() {
+    QMenu *menu = new QMenu("Open", this);
+    QAction *changeAcc = new QAction("Змiнити ОЗ", this);
+    QAction *exit = new QAction("Вийти", this);
+
+    menu->addAction(changeAcc);
+    menu->addAction(exit);
+    ui->accountSettingsButton->setMenu(menu);
+    connect(changeAcc, SIGNAL(triggered()), this, SLOT(changeAccount()));
+    connect(exit, SIGNAL(triggered()), this, SLOT(exitButton()));
+}
+
+void NotesWindow::exitButton() {
+    exit(0);
+}
+
+void NotesWindow::changeAccount() {
+    //Добавь сюда переход на форму авторизации
+}
 
 void NotesWindow::on_saveNoteButton_clicked() {
     QDate now = QDate::currentDate();
@@ -244,4 +267,31 @@ void NotesWindow::on_deleteNoteButton_clicked() {
 
     WriteXML();
     makeListOfNotes();
+}
+
+void NotesWindow::on_notificationButton_clicked()
+{
+    if(openID != -1)
+        ui->stackedWidget->setCurrentIndex(3);
+}
+
+void NotesWindow::on_CancelButton_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(2);
+}
+
+void NotesWindow::on_OkButton_clicked()
+{
+    for(int i = 0; i < notesList.size(); i++) {
+        if(openID == notesList[i].ID) {
+            notesList[i].dateOfNotification = ui->calendarWidget->selectedDate().toString();
+            break;
+        }
+    }
+    ui->stackedWidget->setCurrentIndex(2);
+}
+
+void NotesWindow::on_SearchButton_clicked()
+{
+    //организуй поиск)
 }
