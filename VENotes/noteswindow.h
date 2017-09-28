@@ -2,6 +2,16 @@
 #define NOTESWINDOW_H
 
 #include <QWidget>
+#include <QPushButton>
+#include <QMessageBox>
+#include <QFile>
+#include <QDate>
+#include <QIODevice>
+#include <QTextStream>
+#include <QListWidgetItem>
+#include <QMenu>
+#include <QAction>
+#include <QDateTime>
 
 class QValidator;
 

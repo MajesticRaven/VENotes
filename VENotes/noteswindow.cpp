@@ -1,15 +1,5 @@
 #include "noteswindow.h"
 #include "ui_noteswindow.h"
-#include <QPushButton>
-#include <QMessageBox>
-#include <QFile>
-#include <QDate>
-#include <QIODevice>
-#include <QTextStream>
-#include <QListWidgetItem>
-#include <QMenu>
-#include <QAction>
-#include <QDateTime>
 
 struct note {
     QString nameOfNote;

@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui sql xml
+QT       += core gui sql
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -32,3 +32,5 @@ HEADERS += \
 
 FORMS += \
         noteswindow.ui
+
+    win32:RC_ICONS += icon.ico
