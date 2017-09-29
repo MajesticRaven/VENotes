@@ -4,6 +4,10 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
+
+    if(!NotesWindow::connectDB())
+            return a.exec();
+
     NotesWindow w;
 
     QFile qss("resources/style.qss");

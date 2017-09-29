@@ -12,6 +12,8 @@ int openID = -1;
 QString noteLocation = "resources/Notes/";
 QString username = "";
 QList<note> notesList;
+QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
+QRegExp validExp("\\b[a-zA-Z0-9]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}\\b");
 
 NotesWindow::NotesWindow(QWidget *parent) :
     QWidget(parent),
@@ -19,11 +21,53 @@ NotesWindow::NotesWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    QSqlQuery query;
+    query.exec("SELECT * FROM users");
+    int res = 0;
+    while (query.next())
+        res++;
+    if(res == 0)
+        registration();
+    else
+        authorization();
+}
+
+NotesWindow::~NotesWindow()
+{
+    delete ui;
+}
+
+bool NotesWindow::connectDB()
+{
+    db.setDatabaseName(qApp->applicationDirPath() + "/users_data.db");
+
+    if(!db.open())
+    {
+        QMessageBox::critical(NULL, tr("Помилка"), "Не вдалося під`єднатися до бази даних!");
+        db.close();
+        return false;
+    }
+    else
+    {
+        QSqlQuery query(db);
+        query.prepare("SELECT * FROM users");
+        if(!query.exec())
+        {
+            query.exec("CREATE TABLE users (id INTEGER PRIMARY KEY UNIQUE NOT NULL, login STRING NOT NULL, password STRING NOT NULL, email STRING NOT NULL)");
+            return true;
+        }
+    }
+}
+
+void NotesWindow::registration()
+{
+    ui->stackedWidget->setCurrentIndex(1);
+    this->setFixedSize(ui->stackedWidget->currentWidget()->sizeHint());
     ui->buttonBox_in_reg->button(QDialogButtonBox::Ok)->setEnabled(false);
+    ui->buttonBox_in_reg->button(QDialogButtonBox::Ok)->setDefault(true);
     ui->buttonBox_in_reg->button(QDialogButtonBox::Ok)->setText(tr("Створити"));
     ui->buttonBox_in_reg->button(QDialogButtonBox::Cancel)->setText(tr("Скасувати"));
 
-    QRegExp validExp("\\b[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}\\b");
     validator = new QRegExpValidator(validExp, ui->lineEdit_reg_email);
     ui->lineEdit_reg_email->setValidator(validator);
 
@@ -34,37 +78,98 @@ NotesWindow::NotesWindow(QWidget *parent) :
     connect( ui->buttonBox_in_reg->button(QDialogButtonBox::Ok), SIGNAL(clicked(bool)), this, SLOT(createAccount()));
 }
 
-NotesWindow::~NotesWindow()
+void NotesWindow::authorization()
 {
-    delete ui;
+    ui->stackedWidget->setCurrentIndex(0);
+    this->setFixedSize(ui->stackedWidget->currentWidget()->sizeHint());
+    ui->buttonBox_in_auth->button(QDialogButtonBox::Ok)->setEnabled(false);
+    ui->buttonBox_in_auth->button(QDialogButtonBox::Ok)->setDefault(true);
+    ui->buttonBox_in_auth->button(QDialogButtonBox::Ok)->setText(tr("Увійти"));
+    ui->buttonBox_in_auth->button(QDialogButtonBox::Cancel)->setText(tr("Скасувати"));
+
+    validator = new QRegExpValidator(validExp, ui->lineEdit_auth_email);
+    ui->lineEdit_auth_email->setValidator(validator);
+
+    connect(ui->lineEdit_auth_email, SIGNAL(textChanged(QString)), this, SLOT(setEnabledToAuthOk()));
+    connect(ui->lineEdit_auth_pass, SIGNAL(textChanged(QString)), this, SLOT(setEnabledToAuthOk()));
+    connect( ui->buttonBox_in_auth->button(QDialogButtonBox::Ok), SIGNAL(clicked(bool)), this, SLOT(loginInAccount()));
 }
 
 void NotesWindow::createAccount()
 {
     QString message;
-    if(ui->lineEdit_reg_log->text().isEmpty())
-        message = "Ви не вказали логін.\n";
-    if(ui->lineEdit_reg_pass->text().isEmpty())
-        message += "Ви не вказали пароль.\n";
-    if(ui->lineEdit_reg_pass_check->text().isEmpty())
-        message += "Ви не повторили пароль.\n";
     if(ui->lineEdit_reg_pass->text().compare(ui->lineEdit_reg_pass_check->text()))
         message += "Паролі не співпадають.\n";
-    if(ui->lineEdit_reg_log->text().isEmpty())
-        message += "Ви не вказали email.\n";
-    if(!ui->lineEdit_reg_email->hasAcceptableInput())
-        message += "Такий email не може існувати.\n";
+    QSqlQuery query(db);
+    query.prepare("SELECT * FROM users WHERE email = :email");
+    query.bindValue(":email", ui->lineEdit_reg_email->text());
+    query.exec();
+    int res = 0;
+    while (query.next())
+        res++;
+    if(res)
+        message += "Обліковий запис з таким email вже існує.\n";
     if(!message.isEmpty())
-    {
-        ui->buttonBox_in_reg->button(QDialogButtonBox::Ok)->setEnabled(false);
         QMessageBox::warning(this, tr("Помилка реєстрації"), message + "Повторіть введення даних!");
+    else
+    {
+        QSqlQuery query(db);
+        query.prepare("INSERT INTO users (login, password, email) VALUES (:login, :password, :email)");
+        query.bindValue(":login", ui->lineEdit_reg_log->text());
+        query.bindValue(":password", QCryptographicHash::hash(ui->lineEdit_reg_pass->text().toUtf8(), QCryptographicHash::Md5).toHex());
+        query.bindValue(":email", ui->lineEdit_reg_email->text());
+        if(!query.exec())
+            QMessageBox::warning(this, tr("Помилка реєстрації"), "Не вдалося під`єднатися до бази даних!");
+        else
+        {
+            QMessageBox::information(this, tr("Реєстрацію завершено"), "Новий обліковий запис було створено.\nВітаємо, " + ui->lineEdit_reg_log->text() + "!");
+            username = ui->lineEdit_reg_log->text();
+        }
+    }
+}
+
+void NotesWindow::loginInAccount()
+{
+    QSqlQuery query(db);
+    query.prepare("SELECT login FROM users WHERE email = :email AND password = :password");
+    query.bindValue(":password", QCryptographicHash::hash(ui->lineEdit_auth_pass->text().toUtf8(), QCryptographicHash::Md5).toHex());
+    query.bindValue(":email", ui->lineEdit_auth_email->text());
+    if(!query.exec())
+        QMessageBox::warning(this, tr("Помилка авторизації"), "Не вдалося під`єднатися до бази даних!");
+    else
+    {
+        int res = 0;
+        while (query.next())
+            res++;
+        if(res == 0)
+            QMessageBox::warning(this, tr("Помилка авторизації"), "Не знайдено вказаний обліковий запис!");
+        else
+        {
+            query.previous();
+            QString name = query.value(0).toString();
+            QMessageBox::information(this, tr("Авторизацію завершено"), "Вітаємо, " + name + "!");
+            username = name;
+        }
     }
 }
 
 void NotesWindow::setEnabledToRegOk()
 {
-    if(!ui->lineEdit_reg_log->text().isEmpty() && !ui->lineEdit_reg_pass->text().isEmpty() && !ui->lineEdit_reg_pass_check->text().isEmpty() && !ui->lineEdit_reg_email->text().isEmpty())
+    if(!ui->lineEdit_reg_log->text().isEmpty() && !ui->lineEdit_reg_pass->text().isEmpty() && !ui->lineEdit_reg_pass_check->text().isEmpty() && ui->lineEdit_reg_email->hasAcceptableInput())
         ui->buttonBox_in_reg->button(QDialogButtonBox::Ok)->setEnabled(true);
+    else ui->buttonBox_in_reg->button(QDialogButtonBox::Ok)->setEnabled(false);
+}
+
+void NotesWindow::setEnabledToAuthOk()
+{
+    if(ui->lineEdit_auth_email->hasAcceptableInput() && !ui->lineEdit_auth_pass->text().isEmpty())
+        ui->buttonBox_in_auth->button(QDialogButtonBox::Ok)->setEnabled(true);
+    else ui->buttonBox_in_auth->button(QDialogButtonBox::Ok)->setEnabled(false);
+}
+
+void NotesWindow::on_pushButton_new_account_clicked()
+{
+    registration();
 }
 
 void NotesWindow::readXML() {
@@ -237,7 +342,6 @@ void NotesWindow::on_newNoteButton_clicked() {
     ui->fontComboBox->setEnabled(true);
     openID = -1;
 }
-
 
 void NotesWindow::on_deleteNoteButton_clicked() {
     for(int i = 0; i < notesList.size(); i++) {

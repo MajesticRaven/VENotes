@@ -12,6 +12,13 @@
 #include <QMenu>
 #include <QAction>
 #include <QDateTime>
+#include <QSqlDatabase>
+#include <QSqlQuery>
+#include <QSqlResult>
+#include <QCryptographicHash>
+class QValidator;
+class QRegExp;
+class QSqlDatabase;
 
 class QValidator;
 
@@ -25,16 +32,23 @@ class NotesWindow : public QWidget
 
 public:
     explicit NotesWindow(QWidget *parent = 0);
+    static bool connectDB();
     ~NotesWindow();
 
 private slots:
     void createAccount();
 
+    void loginInAccount();
+
     void setEnabledToRegOk();
+
+    void setEnabledToAuthOk();
 
     void readXML();
 
     void WriteXML();
+
+    void on_pushButton_new_account_clicked();
 
     void on_fontComboBox_activated();
 
@@ -69,6 +83,9 @@ private slots:
 private:
     Ui::NotesWindow *ui;
     QValidator * validator;
+
+    void registration();
+    void authorization();
 };
 
 #endif // NOTESWINDOW_H
