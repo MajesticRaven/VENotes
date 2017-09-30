@@ -29,7 +29,8 @@ NotesWindow::NotesWindow(QWidget *parent) :
     if(res == 0)
         registration();
     else
-        authorization();
+        //authorization();
+        showNotes();
 }
 
 NotesWindow::~NotesWindow()

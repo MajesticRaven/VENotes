@@ -1,0 +1,122 @@
+NotesWindow
+{
+	background-color: white;
+}
+QLabel#label_registration, #label_authorization
+{
+	font-size: 18px;
+	font-weight: bold;
+	color: #1E90FF;
+}
+QLabel#label_reg_log, #label_reg_pass, #label_reg_pass_check, #label_reg_email, #label_auth_email, #label_auth_pass
+{
+	color: #0A59A6;
+	font-size: 15px;
+}
+QLineEdit#lineEdit_reg_log, #lineEdit_reg_pass, #lineEdit_reg_pass_check, #lineEdit_reg_email, #lineEdit_auth_email, #lineEdit_auth_pass
+{
+	border: 2px solid #1E90FF;
+	border-radius: 6px;
+	color: #FF9C0C;
+	margin-bottom: 10px;
+	padding: 2px;
+	font-size: 13px;
+}
+	QLineEdit#lineEdit_reg_log:hover, #lineEdit_reg_pass:hover, #lineEdit_reg_pass_check:hover, #lineEdit_reg_email:hover, #lineEdit_auth_email:hover, #lineEdit_auth_pass:hover
+	{
+		border: 2px solid #FF9C0C;
+		color: #1E90FF;
+	}
+	QLineEdit#lineEdit_reg_log:focus, #lineEdit_reg_pass:focus, #lineEdit_reg_pass_check:focus, #lineEdit_reg_email:focus, #lineEdit_auth_email:focus, #lineEdit_auth_pass:focus
+	{
+		border: 2px solid #FF9C0C;
+		color: #1E90FF;
+	}
+QPushButton#pushButton_remind_account, #pushButton_new_account, #pushButton_auth
+{
+	background: none;
+	border: none;
+	color: #0A59A6;
+	font-size: 15px;
+	margin-bottom: 7px;
+	text-decoration: underline;
+}	
+	QPushButton#pushButton_remind_account:hover, #pushButton_new_account:hover, #pushButton_auth:hover
+	{
+		color: #FF9C0C;
+		text-decoration: none;
+	}	
+	QPushButton#pushButton_remind_account:focus, #pushButton_new_account:focus, #pushButton_auth:focus
+	{
+		border: none;
+		color: #FF9C0C;
+		text-decoration: none;
+	}	
+QDialogButtonBox > QPushButton
+{
+	background: #1E90FF;
+	border: 2px solid #1E90FF;
+	border-radius: 6px;
+	color: #FFF;
+	font-size: 19px;
+	margin-bottom: 10px;
+	padding: 1px;
+	width: 95px;
+}
+	QDialogButtonBox > QPushButton:hover
+	{
+		background: #FF9C0C;
+		border: 2px solid #FF9C0C;
+		width: 95px;
+	}
+	QDialogButtonBox > QPushButton:focus
+	{
+		background: #FF9C0C;
+		border: 2px solid #FF9C0C;
+		width: 95px;
+	}
+	QDialogButtonBox > QPushButton:disabled
+	{
+		background: #BBDDFF;
+		border-color: #BBDDFF; 
+		width: 95px;
+	}
+QMessageBox
+{
+	background-color: white;
+}	
+QMessageBox > QLabel
+{
+	color: #0A59A6;
+	font-size: 16px;
+	margin-left: 10px;
+	margin-right: 10px;
+}
+QMessageBox > QDialogButtonBox > QPushButton
+{
+	background: #1E90FF;
+	border: 2px solid #1E90FF;
+	border-radius: 3px;
+	color: #FFF;
+	font-size: 15px;
+	margin-bottom: 5px;
+	padding: 1px;
+}
+QPushButton#SearchButton, #newNoteButton, #accountSettingsButton, #deletePushButton, #notificationButton, #saveNoteButton
+{
+	height: 45px;
+	width: 45px;
+}
+QPushButton
+{
+	background-color: none;
+	background-image: url(:/Images/save.png);
+	background-image: url(:/resources/Images/save.png);
+	background-image: url(./resources/Images/save.png);
+	background-image: url(./Images/save.png);
+	background-image: url(/resources/Images/save.png);
+	background-image: url(/Images/save.png);
+	background-image: url(resources/Images/save.png);
+	background-image: url(Images/save.png);
+	background-image: url(resources/Images/save.png);
+}
