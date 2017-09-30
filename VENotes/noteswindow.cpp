@@ -265,9 +265,12 @@ void NotesWindow::on_spinBox_valueChanged() {
 void NotesWindow::showNotes() {
     ui->notesName->setEnabled(false);
     ui->notesText->setEnabled(false);
+    ui->notesText->setStyleSheet("border-image: none; opacity: 0.5;");
     ui->spinBox->setEnabled(false);
     ui->fontComboBox->setEnabled(false);
     ui->stackedWidget->setCurrentIndex(2);
+    this->setFixedSize((ui->stackedWidget->currentWidget()->sizeHint()));
+    this->setFixedHeight(600);
     readXML();
     makeListOfNotes();
     createMenu();

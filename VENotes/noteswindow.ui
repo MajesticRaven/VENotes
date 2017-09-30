@@ -14,6 +14,18 @@
    <string>NotesWindow</string>
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
    <item row="0" column="0">
     <widget class="QStackedWidget" name="stackedWidget">
      <property name="currentIndex">
@@ -837,6 +849,18 @@
      </widget>
      <widget class="QWidget" name="page_3">
       <layout class="QGridLayout" name="gridLayout_4">
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
        <item row="0" column="0">
         <layout class="QGridLayout" name="gridLayout_3" columnstretch="1,2">
          <item row="0" column="0">
@@ -844,28 +868,44 @@
            <item>
             <layout class="QHBoxLayout" name="horizontalLayout_12">
              <item>
-              <widget class="QPushButton" name="SearchButton">
-               <property name="toolTip">
-                <string>Знайти нотатку</string>
+              <widget class="QGroupBox" name="groupBox_2">
+               <property name="layoutDirection">
+                <enum>Qt::LeftToRight</enum>
                </property>
-               <property name="statusTip">
-                <string>Знайти нотатку</string>
-               </property>
-               <property name="whatsThis">
-                <string>Знайти нотатку</string>
-               </property>
-               <property name="text">
+               <property name="title">
                 <string/>
                </property>
-               <property name="iconSize">
-                <size>
-                 <width>45</width>
-                 <height>45</height>
-                </size>
-               </property>
-               <property name="shortcut">
-                <string>Ctrl+F</string>
-               </property>
+               <widget class="QPushButton" name="SearchButton">
+                <property name="geometry">
+                 <rect>
+                  <x>20</x>
+                  <y>0</y>
+                  <width>32</width>
+                  <height>23</height>
+                 </rect>
+                </property>
+                <property name="toolTip">
+                 <string>Знайти нотатку</string>
+                </property>
+                <property name="statusTip">
+                 <string>Знайти нотатку</string>
+                </property>
+                <property name="whatsThis">
+                 <string>Знайти нотатку</string>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="iconSize">
+                 <size>
+                  <width>45</width>
+                  <height>45</height>
+                 </size>
+                </property>
+                <property name="shortcut">
+                 <string>Ctrl+F</string>
+                </property>
+               </widget>
               </widget>
              </item>
              <item>
@@ -903,8 +943,17 @@
              </item>
              <item>
               <widget class="QPushButton" name="newNoteButton">
+               <property name="toolTip">
+                <string>Створити нотатку</string>
+               </property>
+               <property name="statusTip">
+                <string>Створити нотатку</string>
+               </property>
+               <property name="whatsThis">
+                <string>Створити нотатку</string>
+               </property>
                <property name="text">
-                <string>New</string>
+                <string/>
                </property>
               </widget>
              </item>
@@ -930,10 +979,44 @@
               </spacer>
              </item>
              <item>
-              <widget class="QPushButton" name="accountSettingsButton">
-               <property name="text">
-                <string>account</string>
+              <widget class="QGroupBox" name="groupBox">
+               <property name="layoutDirection">
+                <enum>Qt::RightToLeft</enum>
                </property>
+               <property name="title">
+                <string/>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignRight|Qt::AlignTop|Qt::AlignTrailing</set>
+               </property>
+               <widget class="QPushButton" name="accountSettingsButton">
+                <property name="geometry">
+                 <rect>
+                  <x>10</x>
+                  <y>10</y>
+                  <width>32</width>
+                  <height>23</height>
+                 </rect>
+                </property>
+                <property name="toolTip">
+                 <string>Налаштування ОЗ</string>
+                </property>
+                <property name="statusTip">
+                 <string>Налаштування ОЗ</string>
+                </property>
+                <property name="whatsThis">
+                 <string>Налаштування ОЗ</string>
+                </property>
+                <property name="layoutDirection">
+                 <enum>Qt::RightToLeft</enum>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="shortcut">
+                 <string>Ctrl+A</string>
+                </property>
+               </widget>
               </widget>
              </item>
             </layout>
@@ -986,8 +1069,17 @@
             <layout class="QHBoxLayout" name="horizontalLayout_9">
              <item>
               <widget class="QPushButton" name="notificationButton">
+               <property name="toolTip">
+                <string>Нагадати про подію</string>
+               </property>
+               <property name="statusTip">
+                <string>Нагадати про подію</string>
+               </property>
+               <property name="whatsThis">
+                <string>Нагадати про подію</string>
+               </property>
                <property name="text">
-                <string>Add notification</string>
+                <string/>
                </property>
               </widget>
              </item>
@@ -1006,15 +1098,33 @@
              </item>
              <item>
               <widget class="QPushButton" name="deleteNoteButton">
+               <property name="toolTip">
+                <string>Видалити</string>
+               </property>
+               <property name="statusTip">
+                <string>Видалити</string>
+               </property>
+               <property name="whatsThis">
+                <string>Видалити</string>
+               </property>
                <property name="text">
-                <string>Delete </string>
+                <string/>
                </property>
               </widget>
              </item>
              <item>
               <widget class="QPushButton" name="saveNoteButton">
+               <property name="toolTip">
+                <string>Зберегти</string>
+               </property>
+               <property name="statusTip">
+                <string>Зберегти</string>
+               </property>
+               <property name="whatsThis">
+                <string>Зберегти</string>
+               </property>
                <property name="text">
-                <string>Save</string>
+                <string/>
                </property>
               </widget>
              </item>

@@ -16,6 +16,7 @@
 #include <QSqlQuery>
 #include <QSqlResult>
 #include <QCryptographicHash>
+#include <QTextBrowser>
 class QValidator;
 class QRegExp;
 class QSqlDatabase;
