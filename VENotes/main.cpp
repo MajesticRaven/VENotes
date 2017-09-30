@@ -10,7 +10,7 @@ int main(int argc, char *argv[])
 
     NotesWindow w;
 
-    QFile qss("resources/style.qss");
+    QFile qss(qApp->applicationDirPath() + "/resources/style.qss");
     qss.open(QFile::ReadOnly);
     a.setStyleSheet(qss.readAll());
     a.topLevelWindows();

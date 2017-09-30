@@ -1,0 +1,4 @@
+QLabel#label_registration
+{
+	color: red;
+}

@@ -17,9 +17,12 @@
    <item row="0" column="0">
     <widget class="QStackedWidget" name="stackedWidget">
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="page">
+      <property name="focusPolicy">
+       <enum>Qt::StrongFocus</enum>
+      </property>
       <layout class="QGridLayout" name="gridLayout_6">
        <property name="sizeConstraint">
         <enum>QLayout::SetDefaultConstraint</enum>
@@ -132,7 +135,14 @@
             </layout>
            </item>
            <item>
-            <widget class="QLineEdit" name="lineEdit_auth_email"/>
+            <widget class="QLineEdit" name="lineEdit_auth_email">
+             <property name="focusPolicy">
+              <enum>Qt::StrongFocus</enum>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+            </widget>
            </item>
           </layout>
          </item>
@@ -180,6 +190,12 @@
            </item>
            <item>
             <widget class="QLineEdit" name="lineEdit_auth_pass">
+             <property name="focusPolicy">
+              <enum>Qt::StrongFocus</enum>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
              <property name="echoMode">
               <enum>QLineEdit::Password</enum>
              </property>
@@ -291,6 +307,9 @@
            </item>
            <item>
             <widget class="QDialogButtonBox" name="buttonBox_in_auth">
+             <property name="styleSheet">
+              <string notr="true"/>
+             </property>
              <property name="standardButtons">
               <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
              </property>
@@ -316,6 +335,9 @@
       </layout>
      </widget>
      <widget class="QWidget" name="page_2">
+      <property name="focusPolicy">
+       <enum>Qt::StrongFocus</enum>
+      </property>
       <layout class="QGridLayout" name="gridLayout_2">
        <property name="sizeConstraint">
         <enum>QLayout::SetDefaultConstraint</enum>

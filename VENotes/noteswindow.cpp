@@ -87,6 +87,9 @@ void NotesWindow::authorization()
     ui->buttonBox_in_auth->button(QDialogButtonBox::Ok)->setText(tr("Увійти"));
     ui->buttonBox_in_auth->button(QDialogButtonBox::Cancel)->setText(tr("Скасувати"));
 
+    ui->pushButton_new_account->setCursor(Qt::PointingHandCursor);
+    ui->pushButton_remind_account->setCursor(Qt::PointingHandCursor);
+
     validator = new QRegExpValidator(validExp, ui->lineEdit_auth_email);
     ui->lineEdit_auth_email->setValidator(validator);
 
@@ -124,6 +127,8 @@ void NotesWindow::createAccount()
         {
             QMessageBox::information(this, tr("Реєстрацію завершено"), "Новий обліковий запис було створено.\nВітаємо, " + ui->lineEdit_reg_log->text() + "!");
             username = ui->lineEdit_reg_log->text();
+            this->setFixedSize(sizeHint());
+            showNotes();
         }
     }
 }
@@ -149,6 +154,8 @@ void NotesWindow::loginInAccount()
             QString name = query.value(0).toString();
             QMessageBox::information(this, tr("Авторизацію завершено"), "Вітаємо, " + name + "!");
             username = name;
+            this->setFixedSize(sizeHint());
+            showNotes();
         }
     }
 }
@@ -164,7 +171,8 @@ void NotesWindow::setEnabledToAuthOk()
 {
     if(ui->lineEdit_auth_email->hasAcceptableInput() && !ui->lineEdit_auth_pass->text().isEmpty())
         ui->buttonBox_in_auth->button(QDialogButtonBox::Ok)->setEnabled(true);
-    else ui->buttonBox_in_auth->button(QDialogButtonBox::Ok)->setEnabled(false);
+    else
+        ui->buttonBox_in_auth->button(QDialogButtonBox::Ok)->setEnabled(false);
 }
 
 void NotesWindow::on_pushButton_new_account_clicked()
@@ -266,7 +274,7 @@ void NotesWindow::exitButton() {
 }
 
 void NotesWindow::changeAccount() {
-    //Добавь сюда переход на форму авторизации
+    authorization();
 }
 
 void NotesWindow::on_saveNoteButton_clicked() {
