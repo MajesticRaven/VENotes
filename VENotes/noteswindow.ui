@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>560</width>
-    <height>587</height>
+    <width>501</width>
+    <height>529</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -863,104 +863,18 @@
        </property>
        <item row="0" column="0">
         <layout class="QGridLayout" name="gridLayout_3" columnstretch="1,2">
-         <item row="0" column="0">
-          <layout class="QVBoxLayout" name="verticalLayout_4">
-           <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_12">
-             <item>
-              <widget class="QGroupBox" name="groupBox_2">
-               <property name="layoutDirection">
-                <enum>Qt::LeftToRight</enum>
-               </property>
-               <property name="title">
-                <string/>
-               </property>
-               <widget class="QPushButton" name="SearchButton">
-                <property name="geometry">
-                 <rect>
-                  <x>20</x>
-                  <y>0</y>
-                  <width>32</width>
-                  <height>23</height>
-                 </rect>
-                </property>
-                <property name="toolTip">
-                 <string>Знайти нотатку</string>
-                </property>
-                <property name="statusTip">
-                 <string>Знайти нотатку</string>
-                </property>
-                <property name="whatsThis">
-                 <string>Знайти нотатку</string>
-                </property>
-                <property name="text">
-                 <string/>
-                </property>
-                <property name="iconSize">
-                 <size>
-                  <width>45</width>
-                  <height>45</height>
-                 </size>
-                </property>
-                <property name="shortcut">
-                 <string>Ctrl+F</string>
-                </property>
-               </widget>
-              </widget>
-             </item>
-             <item>
-              <spacer name="horizontalSpacer_10">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>40</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-            </layout>
-           </item>
-           <item>
-            <widget class="QListWidget" name="notesShowList"/>
-           </item>
-           <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_11">
-             <item>
-              <spacer name="horizontalSpacer_9">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>40</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-             <item>
-              <widget class="QPushButton" name="newNoteButton">
-               <property name="toolTip">
-                <string>Створити нотатку</string>
-               </property>
-               <property name="statusTip">
-                <string>Створити нотатку</string>
-               </property>
-               <property name="whatsThis">
-                <string>Створити нотатку</string>
-               </property>
-               <property name="text">
-                <string/>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-          </layout>
-         </item>
+         <property name="leftMargin">
+          <number>3</number>
+         </property>
+         <property name="topMargin">
+          <number>1</number>
+         </property>
+         <property name="rightMargin">
+          <number>3</number>
+         </property>
+         <property name="bottomMargin">
+          <number>3</number>
+         </property>
          <item row="0" column="1">
           <layout class="QVBoxLayout" name="verticalLayout_3">
            <item>
@@ -979,44 +893,19 @@
               </spacer>
              </item>
              <item>
-              <widget class="QGroupBox" name="groupBox">
-               <property name="layoutDirection">
-                <enum>Qt::RightToLeft</enum>
+              <widget class="QPushButton" name="accountSettingsButton">
+               <property name="toolTip">
+                <string>Налаштування ОЗ</string>
                </property>
-               <property name="title">
+               <property name="statusTip">
+                <string>Налаштування ОЗ</string>
+               </property>
+               <property name="whatsThis">
+                <string>Налаштування ОЗ</string>
+               </property>
+               <property name="text">
                 <string/>
                </property>
-               <property name="alignment">
-                <set>Qt::AlignRight|Qt::AlignTop|Qt::AlignTrailing</set>
-               </property>
-               <widget class="QPushButton" name="accountSettingsButton">
-                <property name="geometry">
-                 <rect>
-                  <x>10</x>
-                  <y>10</y>
-                  <width>32</width>
-                  <height>23</height>
-                 </rect>
-                </property>
-                <property name="toolTip">
-                 <string>Налаштування ОЗ</string>
-                </property>
-                <property name="statusTip">
-                 <string>Налаштування ОЗ</string>
-                </property>
-                <property name="whatsThis">
-                 <string>Налаштування ОЗ</string>
-                </property>
-                <property name="layoutDirection">
-                 <enum>Qt::RightToLeft</enum>
-                </property>
-                <property name="text">
-                 <string/>
-                </property>
-                <property name="shortcut">
-                 <string>Ctrl+A</string>
-                </property>
-               </widget>
               </widget>
              </item>
             </layout>
@@ -1028,6 +917,19 @@
              </item>
              <item>
               <layout class="QHBoxLayout" name="horizontalLayout_8">
+               <item>
+                <spacer name="horizontalSpacer_43">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
                <item>
                 <widget class="QFontComboBox" name="fontComboBox"/>
                </item>
@@ -1122,6 +1024,88 @@
                </property>
                <property name="whatsThis">
                 <string>Зберегти</string>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </item>
+         <item row="0" column="0">
+          <layout class="QVBoxLayout" name="verticalLayout_4">
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_12">
+             <item>
+              <widget class="QPushButton" name="SearchButton">
+               <property name="toolTip">
+                <string>Знайти нотатку</string>
+               </property>
+               <property name="statusTip">
+                <string>Знайти нотатку</string>
+               </property>
+               <property name="whatsThis">
+                <string>Знайти нотатку</string>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>45</width>
+                 <height>45</height>
+                </size>
+               </property>
+               <property name="shortcut">
+                <string>Ctrl+F</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="horizontalSpacer_10">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <widget class="QListWidget" name="notesShowList"/>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_11">
+             <item>
+              <spacer name="horizontalSpacer_9">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item>
+              <widget class="QPushButton" name="newNoteButton">
+               <property name="toolTip">
+                <string>Створити нотатку</string>
+               </property>
+               <property name="statusTip">
+                <string>Створити нотатку</string>
+               </property>
+               <property name="whatsThis">
+                <string>Створити нотатку</string>
                </property>
                <property name="text">
                 <string/>

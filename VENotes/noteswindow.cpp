@@ -265,7 +265,6 @@ void NotesWindow::on_spinBox_valueChanged() {
 void NotesWindow::showNotes() {
     ui->notesName->setEnabled(false);
     ui->notesText->setEnabled(false);
-    ui->notesText->setStyleSheet("border-image: none; opacity: 0.5;");
     ui->spinBox->setEnabled(false);
     ui->fontComboBox->setEnabled(false);
     ui->stackedWidget->setCurrentIndex(2);
@@ -330,7 +329,7 @@ void NotesWindow::on_saveNoteButton_clicked() {
 void NotesWindow::makeListOfNotes() {
     ui->notesShowList->clear();
     for(int i = 0; i < notesList.size(); i++) {
-        QString obj = notesList[i].nameOfNote + "\r\n";
+        QString obj = notesList[i].nameOfNote + "\r\n-----------------------------\n";
         QString comp = notesList[i].textOfNote.mid(0, notesList[i].textOfNote.indexOf('\n'));
         for(int j = 0; j < 20; j++) {
                 obj += comp[j];
