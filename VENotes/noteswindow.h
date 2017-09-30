@@ -80,6 +80,8 @@ private slots:
 
     void on_SearchButton_clicked();
 
+    void on_pushButton_auth_clicked();
+
 private:
     Ui::NotesWindow *ui;
     QValidator * validator;

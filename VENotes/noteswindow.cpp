@@ -62,15 +62,28 @@ bool NotesWindow::connectDB()
 void NotesWindow::registration()
 {
     ui->stackedWidget->setCurrentIndex(1);
-    this->setFixedSize(ui->stackedWidget->currentWidget()->sizeHint());
+    this->setFixedWidth(310);
     ui->buttonBox_in_reg->button(QDialogButtonBox::Ok)->setEnabled(false);
     ui->buttonBox_in_reg->button(QDialogButtonBox::Ok)->setDefault(true);
     ui->buttonBox_in_reg->button(QDialogButtonBox::Ok)->setText(tr("Створити"));
     ui->buttonBox_in_reg->button(QDialogButtonBox::Cancel)->setText(tr("Скасувати"));
 
+    ui->pushButton_auth->setCursor(Qt::PointingHandCursor);
+
     validator = new QRegExpValidator(validExp, ui->lineEdit_reg_email);
     ui->lineEdit_reg_email->setValidator(validator);
 
+    QSqlQuery query;
+    query.exec("SELECT * FROM users");
+    int res = 0;
+    while (query.next())
+        res++;
+    if(res == 0)
+    {
+        this->setFixedHeight(563);
+        ui->pushButton_auth->hide();
+    }
+    else this->setFixedHeight(548 + ui->pushButton_auth->height());
     connect(ui->lineEdit_reg_log, SIGNAL(textChanged(QString)), this, SLOT(setEnabledToRegOk()));
     connect(ui->lineEdit_reg_pass, SIGNAL(textChanged(QString)), this, SLOT(setEnabledToRegOk()));
     connect(ui->lineEdit_reg_pass_check, SIGNAL(textChanged(QString)), this, SLOT(setEnabledToRegOk()));
@@ -81,7 +94,8 @@ void NotesWindow::registration()
 void NotesWindow::authorization()
 {
     ui->stackedWidget->setCurrentIndex(0);
-    this->setFixedSize(ui->stackedWidget->currentWidget()->sizeHint());
+    this->setFixedWidth(310);
+    this->setFixedHeight(470);
     ui->buttonBox_in_auth->button(QDialogButtonBox::Ok)->setEnabled(false);
     ui->buttonBox_in_auth->button(QDialogButtonBox::Ok)->setDefault(true);
     ui->buttonBox_in_auth->button(QDialogButtonBox::Ok)->setText(tr("Увійти"));
@@ -177,6 +191,7 @@ void NotesWindow::setEnabledToAuthOk()
 
 void NotesWindow::on_pushButton_new_account_clicked()
 {
+    ui->pushButton_new_account->clearFocus();
     registration();
 }
 
@@ -394,4 +409,10 @@ void NotesWindow::on_OkButton_clicked()
 void NotesWindow::on_SearchButton_clicked()
 {
     //организуй поиск)
+}
+
+void NotesWindow::on_pushButton_auth_clicked()
+{
+    ui->pushButton_auth->clearFocus();
+    authorization();
 }

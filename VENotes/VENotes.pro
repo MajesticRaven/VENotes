@@ -33,4 +33,4 @@ HEADERS += \
 FORMS += \
         noteswindow.ui
 
-    win32:RC_ICONS += icon.ico
+    win32:RC_ICONS += logo_icon.ico
