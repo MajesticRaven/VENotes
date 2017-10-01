@@ -131,6 +131,14 @@ QPushButton#SearchButton
 {
 	border-image: url(resources/Images/searchor.png);
 }
+	QPushButton#SearchButton:hover
+	{
+		border-image: url(resources/Images/searchwhite.png);
+	}
+	QPushButton#SearchButton:focus
+	{
+		border-image: url(resources/Images/searchwhite.png);
+	}
 QPushButton#newNoteButton
 {
 	border-image: url(resources/Images/addButtonor.png);
@@ -138,22 +146,54 @@ QPushButton#newNoteButton
 	margin-bottom: 1px;
 	width: 48px;
 }
+	QPushButton#newNoteButton:hover
+	{
+		border-image: url(resources/Images/addButtonwhite.png);
+	}
+	QPushButton#newNoteButton:focus
+	{
+		border-image: url(resources/Images/addButtonwhite.png);
+	}
 QPushButton#deleteNoteButton
 {
 	border-image: url(resources/Images/deleteor.png);
 }
+	QPushButton#deleteNoteButton:hover
+	{
+		border-image: url(resources/Images/deletewhite.png);
+	}
+	QPushButton#deleteNoteButton:focus
+	{
+		border-image: url(resources/Images/deletewhite.png);
+	}
 QPushButton#saveNoteButton
 {
 	border-image: url(resources/Images/saveor.png);
 	height: 49px;
 	width: 49px;
 }
+	QPushButton#saveNoteButton:hover
+	{
+		border-image: url(resources/Images/savewhite.png);
+	}
+	QPushButton#saveNoteButton:focus
+	{
+		border-image: url(resources/Images/savewhite.png);
+	}
 QPushButton#notificationButton
 {
 	border-image: url(resources/Images/NotificationWhiteor.png);
 	height: 48px;
 	width: 48px;
 }
+	QPushButton#notificationButton:hover
+	{
+		border-image: url(resources/Images/NotificationBlueWhite.png);
+	}
+	QPushButton#notificationButton:focus
+	{
+		border-image: url(resources/Images/NotificationBlueWhite.png);
+	}
 QPushButton#accountSettingsButton
 {
 	border-image: url(resources/Images/accountButtonor.png);
@@ -162,6 +202,30 @@ QPushButton#accountSettingsButton
 	min-height: 50px;
 	min-width: 50px;*/
 }
+	QPushButton#accountSettingsButton:hover
+	{
+		border-image: url(resources/Images/accountButtonwhite.png);
+	}
+	QPushButton#accountSettingsButton:focus
+	{
+		border-image: url(resources/Images/accountButtonwhite.png);
+	}
+QMenu
+{
+	background: #0A59A6;
+	color: white;
+	font-size: 13px;
+}
+	QMenu:hover {
+		color: #FF9C0C;
+	}
+	QMenu::item:hover {
+		background: #FF9C0C;
+	}
+	QMenu::separator
+	{
+		background-color: white;
+	}
 QTextBrowser#notesText
 {
 	border-image: url(resources/Images/background.jpg);

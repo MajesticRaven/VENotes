@@ -323,7 +323,7 @@ void NotesWindow::on_saveNoteButton_clicked() {
     buf.nameOfNote = ui->notesName->text();
     for(int i = 0; i < notesList.size(); i++) {
         if(ui->notesName->text() == notesList[i].nameOfNote && openID != notesList[i].ID) {
-            QMessageBox::critical(this, "Помилка", "Оберiть оригiнальну назву нотатка!");
+            QMessageBox::warning(this, "Помилка", "Оберiть оригiнальну назву нотатки!");
             return;
         }
     }
@@ -349,7 +349,32 @@ void NotesWindow::on_saveNoteButton_clicked() {
 void NotesWindow::makeListOfNotes() {
     ui->notesShowList->clear();
     for(int i = 0; i < notesList.size(); i++) {
-        QString obj = notesList[i].nameOfNote + "\r\n   ---------------------------------   \n";
+        QString obj = "Назва: ";
+        int lenght = 0;
+        int max_symb = 21;
+        for(int j = 0; j < notesList[i].nameOfNote.size(); j++)
+        {
+            int temp = j;
+            j = notesList[i].nameOfNote.indexOf(" ", j);
+            if(j == -1)
+            {
+                obj += notesList[i].nameOfNote.mid(temp, notesList[i].nameOfNote.size() - temp) + "\r\n   ---------------------------------   \n";
+                lenght = 0;
+                break;
+            }
+            if(lenght + j - temp > max_symb)
+            {
+                obj.remove(obj.size() - 1, 1);
+                obj += "\r\n" + notesList[i].nameOfNote.mid(temp, j - temp + 1);
+                lenght = j - temp + 1;
+                max_symb = 25;
+            }
+            else
+            {
+                obj += notesList[i].nameOfNote.mid(temp, j - temp + 1);
+                lenght += j - temp + 1;
+            }
+        }
         QString comp = notesList[i].textOfNote.mid(0, notesList[i].textOfNote.indexOf('\n'));
         for(int j = 0; j < 20; j++) {
                 obj += comp[j];
@@ -357,17 +382,30 @@ void NotesWindow::makeListOfNotes() {
         if(comp.size() > 30)
             obj += "...";
         obj += "\n";
-        //obj += "\n-----------------------------\n";
         ui->notesShowList->addItem(obj);
     }
 }
 
 void NotesWindow::on_notesShowList_itemDoubleClicked() {
    QString name = ui->notesShowList->currentItem()->text();
-   int num = name.indexOf('\n');
-   QString nameText = name.mid(0, num - 1);
+
+   int e_pos = name.lastIndexOf("\n");
+   e_pos = name.lastIndexOf("\n", e_pos - 1);
+   e_pos = name.lastIndexOf("\n", e_pos - 1);
+   e_pos--;
+   name = name.mid(7, e_pos - 7);
+
+   int pos = name.indexOf("\n"), temp_pos = 0;
+   while(pos != -1)
+   {
+       name.remove(pos - 1, 1);
+       name.replace(pos - 1, 1, " ");
+       temp_pos = pos + 1;
+       pos = name.indexOf("\n", temp_pos);
+   }
+
    for(int i = 0; i < notesList.size(); i++) {
-       if(notesList[i].nameOfNote == nameText) {
+       if(notesList[i].nameOfNote == name) {
            ui->notesName->setEnabled(true);
            ui->notesText->setEnabled(true);
            ui->spinBox->setEnabled(true);

@@ -1304,6 +1304,31 @@
   </layout>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <tabstops>
+  <tabstop>lineEdit_auth_email</tabstop>
+  <tabstop>lineEdit_auth_pass</tabstop>
+  <tabstop>pushButton_remind_account</tabstop>
+  <tabstop>pushButton_new_account</tabstop>
+  <tabstop>lineEdit_reg_log</tabstop>
+  <tabstop>lineEdit_reg_pass</tabstop>
+  <tabstop>lineEdit_reg_pass_check</tabstop>
+  <tabstop>lineEdit_reg_email</tabstop>
+  <tabstop>pushButton_auth</tabstop>
+  <tabstop>SearchButton</tabstop>
+  <tabstop>accountSettingsButton</tabstop>
+  <tabstop>newNoteButton</tabstop>
+  <tabstop>notificationButton</tabstop>
+  <tabstop>deleteNoteButton</tabstop>
+  <tabstop>saveNoteButton</tabstop>
+  <tabstop>notesName</tabstop>
+  <tabstop>fontComboBox</tabstop>
+  <tabstop>spinBox</tabstop>
+  <tabstop>notesText</tabstop>
+  <tabstop>notesShowList</tabstop>
+  <tabstop>calendarWidget</tabstop>
+  <tabstop>OkButton</tabstop>
+  <tabstop>CancelButton</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>
