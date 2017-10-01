@@ -215,4 +215,11 @@ QListWidget#notesShowList
 {
 	border: 2px solid #1E90FF;
 	font-size: 15px;
+	min-width: 230px;
+}
+QListWidgetItem
+{
+	background: red;
+	border: 2px solid red;
+	color: red;
 }

@@ -29,8 +29,12 @@ NotesWindow::NotesWindow(QWidget *parent) :
     if(res == 0)
         registration();
     else
-        //authorization();
-        showNotes();
+    {
+        readSettings();
+        if(username == "")
+            authorization();
+        else showNotes();
+    }
 }
 
 NotesWindow::~NotesWindow()
@@ -142,6 +146,7 @@ void NotesWindow::createAccount()
         {
             QMessageBox::information(this, tr("Реєстрацію завершено"), "Новий обліковий запис було створено.\nВітаємо, " + ui->lineEdit_reg_log->text() + "!");
             username = ui->lineEdit_reg_log->text();
+            writeSettings();
             this->setFixedSize(sizeHint());
             showNotes();
         }
@@ -169,6 +174,7 @@ void NotesWindow::loginInAccount()
             QString name = query.value(0).toString();
             QMessageBox::information(this, tr("Авторизацію завершено"), "Вітаємо, " + name + "!");
             username = name;
+            writeSettings();
             this->setFixedSize(sizeHint());
             showNotes();
         }
@@ -277,9 +283,20 @@ void NotesWindow::showNotes() {
 
 void NotesWindow::createMenu() {
     QMenu *menu = new QMenu("Open", this);
-    QAction *changeAcc = new QAction("Змiнити ОЗ", this);
+    QAction *login = new QAction(username, this);
+    login->setIcon(QIcon("resources/Images/accountButtonor.png"));
+    QAction *changeAcc = new QAction("Вийти з ОЗ", this);
+    changeAcc->setShortcut(tr("Ctrl+E"));
+    changeAcc->setToolTip(tr("Вийти з облікового запису"));
+    changeAcc->setStatusTip(tr("Вийти з облікового запису"));
+    changeAcc->setIcon(QIcon("resources/Images/logout.png"));
     QAction *exit = new QAction("Вийти", this);
+    exit->setShortcut(QKeySequence::Close);
+    exit->setToolTip(tr("Вийти з програми"));
+    exit->setStatusTip(tr("Вийти з програми"));
+    exit->setIcon(QIcon("resources/Images/close.png"));
 
+    menu->addAction(login);
     menu->addAction(changeAcc);
     menu->addAction(exit);
     ui->accountSettingsButton->setMenu(menu);
@@ -288,10 +305,13 @@ void NotesWindow::createMenu() {
 }
 
 void NotesWindow::exitButton() {
+    writeSettings();
     exit(0);
 }
 
 void NotesWindow::changeAccount() {
+    username = "";
+    writeSettings();
     authorization();
 }
 
@@ -329,13 +349,15 @@ void NotesWindow::on_saveNoteButton_clicked() {
 void NotesWindow::makeListOfNotes() {
     ui->notesShowList->clear();
     for(int i = 0; i < notesList.size(); i++) {
-        QString obj = notesList[i].nameOfNote + "\r\n-----------------------------\n";
+        QString obj = notesList[i].nameOfNote + "\r\n   ---------------------------------   \n";
         QString comp = notesList[i].textOfNote.mid(0, notesList[i].textOfNote.indexOf('\n'));
         for(int j = 0; j < 20; j++) {
                 obj += comp[j];
         }
-        if(comp.size() > 20)
+        if(comp.size() > 30)
             obj += "...";
+        obj += "\n";
+        //obj += "\n-----------------------------\n";
         ui->notesShowList->addItem(obj);
     }
 }
@@ -418,4 +440,16 @@ void NotesWindow::on_pushButton_auth_clicked()
 {
     ui->pushButton_auth->clearFocus();
     authorization();
+}
+
+void NotesWindow::readSettings()
+{
+    QSettings settings("VE Inc.", "VENotes");
+    username = settings.value("login").toString();
+}
+
+void NotesWindow::writeSettings()
+{
+    QSettings settings("VE Inc.", "VENotes");
+    settings.setValue("login", username);
 }

@@ -906,6 +906,9 @@
                <property name="text">
                 <string/>
                </property>
+               <property name="shortcut">
+                <string>Ctrl+A</string>
+               </property>
               </widget>
              </item>
             </layout>
@@ -983,6 +986,9 @@
                <property name="text">
                 <string/>
                </property>
+               <property name="shortcut">
+                <string>Ctrl+R</string>
+               </property>
               </widget>
              </item>
              <item>
@@ -1012,6 +1018,9 @@
                <property name="text">
                 <string/>
                </property>
+               <property name="shortcut">
+                <string>Ctrl+D</string>
+               </property>
               </widget>
              </item>
              <item>
@@ -1027,6 +1036,9 @@
                </property>
                <property name="text">
                 <string/>
+               </property>
+               <property name="shortcut">
+                <string>Ctrl+S</string>
                </property>
               </widget>
              </item>
@@ -1109,6 +1121,9 @@
                </property>
                <property name="text">
                 <string/>
+               </property>
+               <property name="shortcut">
+                <string>Ctrl+N</string>
                </property>
               </widget>
              </item>
@@ -1287,9 +1302,6 @@
     </widget>
    </item>
   </layout>
-  <zorder>stackedWidget</zorder>
-  <zorder>layoutWidget_2</zorder>
-  <zorder></zorder>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>

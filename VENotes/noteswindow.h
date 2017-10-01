@@ -17,6 +17,9 @@
 #include <QSqlResult>
 #include <QCryptographicHash>
 #include <QTextBrowser>
+#include <QScrollBar>
+#include <QSettings>
+#include <QIcon>
 class QValidator;
 class QRegExp;
 class QSqlDatabase;
@@ -83,6 +86,9 @@ private slots:
 
     void on_pushButton_auth_clicked();
 
+    void readSettings();
+
+    void writeSettings();
 private:
     Ui::NotesWindow *ui;
     QValidator * validator;
