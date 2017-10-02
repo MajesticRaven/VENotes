@@ -20,6 +20,8 @@
 #include <QScrollBar>
 #include <QSettings>
 #include <QIcon>
+#include "calendar.h"
+
 class QValidator;
 class QRegExp;
 class QSqlDatabase;
@@ -37,6 +39,8 @@ class NotesWindow : public QWidget
 public:
     explicit NotesWindow(QWidget *parent = 0);
     static bool connectDB();
+    Ui::NotesWindow * getUi();
+    void setDate(QString);
     ~NotesWindow();
 
 private slots:
@@ -78,9 +82,13 @@ private slots:
 
     void on_notificationButton_clicked();
 
+    /*
+     *Это нужно для работу напоминание в том же окне, а не в диалоговом окне
+     *
     void on_CancelButton_clicked();
 
     void on_OkButton_clicked();
+    */
 
     void on_SearchButton_clicked();
 

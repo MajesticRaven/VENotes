@@ -25,12 +25,15 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-        noteswindow.cpp
+        noteswindow.cpp \
+    calendar.cpp
 
 HEADERS += \
-        noteswindow.h
+        noteswindow.h \
+    calendar.h
 
 FORMS += \
-        noteswindow.ui
+        noteswindow.ui \
+    calendar.ui
 
     win32:RC_ICONS += logo_icon.ico

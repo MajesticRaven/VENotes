@@ -72,7 +72,7 @@ void NotesWindow::registration()
     ui->buttonBox_in_reg->button(QDialogButtonBox::Ok)->setDefault(true);
     ui->buttonBox_in_reg->button(QDialogButtonBox::Ok)->setText(tr("Створити"));
     ui->buttonBox_in_reg->button(QDialogButtonBox::Cancel)->setText(tr("Скасувати"));
-
+    ui->lineEdit_reg_log->clearFocus();
     ui->pushButton_auth->setCursor(Qt::PointingHandCursor);
 
     validator = new QRegExpValidator(validExp, ui->lineEdit_reg_email);
@@ -132,7 +132,14 @@ void NotesWindow::createAccount()
     if(res)
         message += "Обліковий запис з таким email вже існує.\n";
     if(!message.isEmpty())
-        QMessageBox::warning(this, tr("Помилка реєстрації"), message + "Повторіть введення даних!");
+    {
+        QMessageBox warning(this);
+        warning.setWindowTitle(tr("Помилка реєстрації"));
+        warning.setIcon(QMessageBox::Warning);
+        warning.setText(message + "Повторіть введення даних!");
+        warning.exec();
+    }
+        //QMessageBox::warning(this, tr("Помилка реєстрації"), message + "Повторіть введення даних!");
     else
     {
         QSqlQuery query(db);
@@ -144,11 +151,11 @@ void NotesWindow::createAccount()
             QMessageBox::warning(this, tr("Помилка реєстрації"), "Не вдалося під`єднатися до бази даних!");
         else
         {
-            QMessageBox::information(this, tr("Реєстрацію завершено"), "Новий обліковий запис було створено.\nВітаємо, " + ui->lineEdit_reg_log->text() + "!");
             username = ui->lineEdit_reg_log->text();
             writeSettings();
             this->setFixedSize(sizeHint());
             showNotes();
+            //QMessageBox::information(this, tr("Реєстрацію завершено"), "Новий обліковий запис було створено.\nВітаємо, " + ui->lineEdit_reg_log->text() + "!");
         }
     }
 }
@@ -172,11 +179,11 @@ void NotesWindow::loginInAccount()
         {
             query.previous();
             QString name = query.value(0).toString();
-            QMessageBox::information(this, tr("Авторизацію завершено"), "Вітаємо, " + name + "!");
             username = name;
-            writeSettings();
-            this->setFixedSize(sizeHint());
             showNotes();
+            writeSettings();
+            //QMessageBox::information(this, tr("Авторизацію завершено"), "Вітаємо, " + name + "!");
+            ui->labelLogin->setText("Вітаємо, " + username + "!");
         }
     }
 }
@@ -274,11 +281,14 @@ void NotesWindow::showNotes() {
     ui->spinBox->setEnabled(false);
     ui->fontComboBox->setEnabled(false);
     ui->stackedWidget->setCurrentIndex(2);
+    ui->SearchButton->setAutoDefault(false);
+    ui->SearchButton->clearFocus();
     this->setFixedSize((ui->stackedWidget->currentWidget()->sizeHint()));
     this->setFixedHeight(600);
     readXML();
     makeListOfNotes();
     createMenu();
+    ui->labelLogin->setText("Вітаємо, " + username + "!");
 }
 
 void NotesWindow::createMenu() {
@@ -311,6 +321,7 @@ void NotesWindow::exitButton() {
 
 void NotesWindow::changeAccount() {
     username = "";
+    ui->accountSettingsButton->clearFocus();
     writeSettings();
     authorization();
 }
@@ -358,6 +369,12 @@ void NotesWindow::makeListOfNotes() {
             j = notesList[i].nameOfNote.indexOf(" ", j);
             if(j == -1)
             {
+                if(notesList[i].nameOfNote.size() - temp + lenght > max_symb)
+                {
+                    obj.remove(obj.size() - 1, 1);
+                    obj += "\r\n";
+                }
+
                 obj += notesList[i].nameOfNote.mid(temp, notesList[i].nameOfNote.size() - temp) + "\r\n   ---------------------------------   \n";
                 lenght = 0;
                 break;
@@ -394,7 +411,6 @@ void NotesWindow::on_notesShowList_itemDoubleClicked() {
    e_pos = name.lastIndexOf("\n", e_pos - 1);
    e_pos--;
    name = name.mid(7, e_pos - 7);
-
    int pos = name.indexOf("\n"), temp_pos = 0;
    while(pos != -1)
    {
@@ -403,7 +419,6 @@ void NotesWindow::on_notesShowList_itemDoubleClicked() {
        temp_pos = pos + 1;
        pos = name.indexOf("\n", temp_pos);
    }
-
    for(int i = 0; i < notesList.size(); i++) {
        if(notesList[i].nameOfNote == name) {
            ui->notesName->setEnabled(true);
@@ -450,12 +465,33 @@ void NotesWindow::on_deleteNoteButton_clicked() {
 void NotesWindow::on_notificationButton_clicked()
 {
     if(openID != -1)
-        ui->stackedWidget->setCurrentIndex(3);
+    {
+        //Закомментировал то, что нужно для вызова календаря в том же окне, а не в диалоговом коне
+        //ui->stackedWidget->setCurrentIndex(3);
+        //this->setFixedSize(ui->stackedWidget->currentWidget()->sizeHint());
+        Calendar * calendar = new Calendar(this);
+        calendar->show();
+        calendar->exec();
+    }
 }
 
+void NotesWindow::setDate(QString str)
+{
+    for(int i = 0; i < notesList.size(); i++) {
+        if(openID == notesList[i].ID) {
+            notesList[i].dateOfNotification = str;
+            break;
+        }
+    }
+}
+
+/*
+ *Это нужно для работу напоминание в том же окне, а не в диалоговом окне
+ *
 void NotesWindow::on_CancelButton_clicked()
 {
-    ui->stackedWidget->setCurrentIndex(2);
+    ui->notificationButton->clearFocus();
+    showNotes();
 }
 
 void NotesWindow::on_OkButton_clicked()
@@ -466,8 +502,10 @@ void NotesWindow::on_OkButton_clicked()
             break;
         }
     }
-    ui->stackedWidget->setCurrentIndex(2);
+    ui->notificationButton->clearFocus();
+    showNotes();
 }
+*/
 
 void NotesWindow::on_SearchButton_clicked()
 {
@@ -490,4 +528,9 @@ void NotesWindow::writeSettings()
 {
     QSettings settings("VE Inc.", "VENotes");
     settings.setValue("login", username);
+}
+
+Ui::NotesWindow * NotesWindow::getUi()
+{
+    return ui;
 }

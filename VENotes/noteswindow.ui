@@ -28,6 +28,9 @@
    </property>
    <item row="0" column="0">
     <widget class="QStackedWidget" name="stackedWidget">
+     <property name="focusPolicy">
+      <enum>Qt::StrongFocus</enum>
+     </property>
      <property name="currentIndex">
       <number>2</number>
      </property>
@@ -893,7 +896,17 @@
               </spacer>
              </item>
              <item>
+              <widget class="QLabel" name="labelLogin">
+               <property name="text">
+                <string/>
+               </property>
+              </widget>
+             </item>
+             <item>
               <widget class="QPushButton" name="accountSettingsButton">
+               <property name="focusPolicy">
+                <enum>Qt::StrongFocus</enum>
+               </property>
                <property name="toolTip">
                 <string>Налаштування ОЗ</string>
                </property>
@@ -1052,6 +1065,9 @@
             <layout class="QHBoxLayout" name="horizontalLayout_12">
              <item>
               <widget class="QPushButton" name="SearchButton">
+               <property name="focusPolicy">
+                <enum>Qt::StrongFocus</enum>
+               </property>
                <property name="toolTip">
                 <string>Знайти нотатку</string>
                </property>
@@ -1182,33 +1198,7 @@
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout_15">
            <item>
-            <spacer name="horizontalSpacer_16">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>40</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-           <item>
             <widget class="QCalendarWidget" name="calendarWidget"/>
-           </item>
-           <item>
-            <spacer name="horizontalSpacer_17">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>40</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
            </item>
           </layout>
          </item>
@@ -1284,19 +1274,6 @@
          </item>
         </layout>
        </item>
-       <item row="1" column="0">
-        <spacer name="verticalSpacer_2">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>49</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
       </layout>
      </widget>
     </widget>
@@ -1305,29 +1282,30 @@
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <tabstops>
+  <tabstop>OkButton</tabstop>
   <tabstop>lineEdit_auth_email</tabstop>
   <tabstop>lineEdit_auth_pass</tabstop>
   <tabstop>pushButton_remind_account</tabstop>
   <tabstop>pushButton_new_account</tabstop>
+  <tabstop>CancelButton</tabstop>
   <tabstop>lineEdit_reg_log</tabstop>
   <tabstop>lineEdit_reg_pass</tabstop>
   <tabstop>lineEdit_reg_pass_check</tabstop>
   <tabstop>lineEdit_reg_email</tabstop>
   <tabstop>pushButton_auth</tabstop>
+  <tabstop>stackedWidget</tabstop>
   <tabstop>SearchButton</tabstop>
   <tabstop>accountSettingsButton</tabstop>
   <tabstop>newNoteButton</tabstop>
   <tabstop>notificationButton</tabstop>
   <tabstop>deleteNoteButton</tabstop>
   <tabstop>saveNoteButton</tabstop>
+  <tabstop>notesShowList</tabstop>
   <tabstop>notesName</tabstop>
   <tabstop>fontComboBox</tabstop>
   <tabstop>spinBox</tabstop>
   <tabstop>notesText</tabstop>
-  <tabstop>notesShowList</tabstop>
   <tabstop>calendarWidget</tabstop>
-  <tabstop>OkButton</tabstop>
-  <tabstop>CancelButton</tabstop>
  </tabstops>
  <resources/>
  <connections>
