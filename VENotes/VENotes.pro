@@ -26,14 +26,17 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         noteswindow.cpp \
-    calendar.cpp
+    calendar.cpp \
+    dialog.cpp
 
 HEADERS += \
         noteswindow.h \
-    calendar.h
+    calendar.h \
+    dialog.h
 
 FORMS += \
         noteswindow.ui \
-    calendar.ui
+    calendar.ui \
+    dialog.ui
 
     win32:RC_ICONS += logo_icon.ico

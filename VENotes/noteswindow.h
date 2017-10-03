@@ -21,6 +21,7 @@
 #include <QSettings>
 #include <QIcon>
 #include "calendar.h"
+#include "dialog.h"
 
 class QValidator;
 class QRegExp;
@@ -41,6 +42,7 @@ public:
     static bool connectDB();
     Ui::NotesWindow * getUi();
     void setDate(QString);
+    void getDataFromDialog(QString, QString);
     ~NotesWindow();
 
 private slots:
@@ -48,9 +50,13 @@ private slots:
 
     void loginInAccount();
 
+    void remindPassword();
+
     void setEnabledToRegOk();
 
     void setEnabledToAuthOk();
+
+    void setEnabledToRemindOk();
 
     void readXML();
 
@@ -80,6 +86,12 @@ private slots:
 
     void changeAccount();
 
+    void refreshEmail();
+
+    void refreshPassword();
+
+    void deleteAccount();
+
     void on_notificationButton_clicked();
 
     /*
@@ -97,12 +109,21 @@ private slots:
     void readSettings();
 
     void writeSettings();
+
+    void returnToAuth();
+    void on_pushButton_authorization_clicked();
+
+    void on_pushButton_registration_clicked();
+
+    void on_pushButton_remind_account_clicked();
+
 private:
     Ui::NotesWindow *ui;
     QValidator * validator;
 
     void registration();
     void authorization();
+    void remind();
 };
 
 #endif // NOTESWINDOW_H

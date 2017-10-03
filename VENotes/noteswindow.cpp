@@ -14,6 +14,7 @@ QString username = "";
 QList<note> notesList;
 QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
 QRegExp validExp("\\b[a-zA-Z0-9]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}\\b");
+bool isRegConnect = false, isAuthConnect = false, isRemindConnect = false;
 
 NotesWindow::NotesWindow(QWidget *parent) :
     QWidget(parent),
@@ -69,7 +70,10 @@ void NotesWindow::registration()
     ui->stackedWidget->setCurrentIndex(1);
     this->setFixedWidth(310);
     ui->buttonBox_in_reg->button(QDialogButtonBox::Ok)->setEnabled(false);
+    ui->buttonBox_in_reg->button(QDialogButtonBox::Ok)->setAutoDefault(true);
     ui->buttonBox_in_reg->button(QDialogButtonBox::Ok)->setDefault(true);
+    ui->buttonBox_in_reg->button(QDialogButtonBox::Ok)->setShortcut(Qt::Key_Enter);
+    ui->buttonBox_in_reg->button(QDialogButtonBox::Cancel)->setShortcut(Qt::Key_Cancel);
     ui->buttonBox_in_reg->button(QDialogButtonBox::Ok)->setText(tr("Створити"));
     ui->buttonBox_in_reg->button(QDialogButtonBox::Cancel)->setText(tr("Скасувати"));
     ui->lineEdit_reg_log->clearFocus();
@@ -89,11 +93,16 @@ void NotesWindow::registration()
         ui->pushButton_auth->hide();
     }
     else this->setFixedHeight(548 + ui->pushButton_auth->height());
-    connect(ui->lineEdit_reg_log, SIGNAL(textChanged(QString)), this, SLOT(setEnabledToRegOk()));
-    connect(ui->lineEdit_reg_pass, SIGNAL(textChanged(QString)), this, SLOT(setEnabledToRegOk()));
-    connect(ui->lineEdit_reg_pass_check, SIGNAL(textChanged(QString)), this, SLOT(setEnabledToRegOk()));
-    connect(ui->lineEdit_reg_email, SIGNAL(textChanged(QString)), this, SLOT(setEnabledToRegOk()));
-    connect( ui->buttonBox_in_reg->button(QDialogButtonBox::Ok), SIGNAL(clicked(bool)), this, SLOT(createAccount()));
+
+    if(!isRegConnect)
+    {
+        connect(ui->lineEdit_reg_log, SIGNAL(textChanged(QString)), this, SLOT(setEnabledToRegOk()));
+        connect(ui->lineEdit_reg_pass, SIGNAL(textChanged(QString)), this, SLOT(setEnabledToRegOk()));
+        connect(ui->lineEdit_reg_pass_check, SIGNAL(textChanged(QString)), this, SLOT(setEnabledToRegOk()));
+        connect(ui->lineEdit_reg_email, SIGNAL(textChanged(QString)), this, SLOT(setEnabledToRegOk()));
+        connect(ui->buttonBox_in_reg->button(QDialogButtonBox::Ok), SIGNAL(clicked()), this, SLOT(createAccount()));
+        isRegConnect = true;
+    }
 }
 
 void NotesWindow::authorization()
@@ -102,7 +111,10 @@ void NotesWindow::authorization()
     this->setFixedWidth(310);
     this->setFixedHeight(470);
     ui->buttonBox_in_auth->button(QDialogButtonBox::Ok)->setEnabled(false);
+    ui->buttonBox_in_auth->button(QDialogButtonBox::Ok)->setAutoDefault(true);
     ui->buttonBox_in_auth->button(QDialogButtonBox::Ok)->setDefault(true);
+    ui->buttonBox_in_auth->button(QDialogButtonBox::Ok)->setShortcut(Qt::Key_Enter);
+    ui->buttonBox_in_auth->button(QDialogButtonBox::Cancel)->setShortcut(Qt::Key_Cancel);
     ui->buttonBox_in_auth->button(QDialogButtonBox::Ok)->setText(tr("Увійти"));
     ui->buttonBox_in_auth->button(QDialogButtonBox::Cancel)->setText(tr("Скасувати"));
 
@@ -112,14 +124,47 @@ void NotesWindow::authorization()
     validator = new QRegExpValidator(validExp, ui->lineEdit_auth_email);
     ui->lineEdit_auth_email->setValidator(validator);
 
-    connect(ui->lineEdit_auth_email, SIGNAL(textChanged(QString)), this, SLOT(setEnabledToAuthOk()));
-    connect(ui->lineEdit_auth_pass, SIGNAL(textChanged(QString)), this, SLOT(setEnabledToAuthOk()));
-    connect( ui->buttonBox_in_auth->button(QDialogButtonBox::Ok), SIGNAL(clicked(bool)), this, SLOT(loginInAccount()));
+    if(!isAuthConnect)
+    {
+        connect(ui->lineEdit_auth_email, SIGNAL(textChanged(QString)), this, SLOT(setEnabledToAuthOk()));
+        connect(ui->lineEdit_auth_pass, SIGNAL(textChanged(QString)), this, SLOT(setEnabledToAuthOk()));
+        connect(ui->buttonBox_in_auth->button(QDialogButtonBox::Ok), SIGNAL(clicked()), this, SLOT(loginInAccount()));
+        isAuthConnect = true;
+    }
+}
+
+void NotesWindow::remind()
+{
+    ui->stackedWidget->setCurrentIndex(4);
+    this->setFixedWidth(310);
+    this->setFixedHeight(470);
+    ui->buttonBox_in_remind->button(QDialogButtonBox::Ok)->setEnabled(false);
+    ui->buttonBox_in_remind->button(QDialogButtonBox::Ok)->setAutoDefault(true);
+    ui->buttonBox_in_remind->button(QDialogButtonBox::Ok)->setDefault(true);
+    ui->buttonBox_in_remind->button(QDialogButtonBox::Ok)->setShortcut(Qt::Key_Enter);
+    ui->buttonBox_in_remind->button(QDialogButtonBox::Cancel)->setShortcut(Qt::Key_Cancel);
+    ui->buttonBox_in_remind->button(QDialogButtonBox::Ok)->setText(tr("Відновити"));
+    ui->buttonBox_in_remind->button(QDialogButtonBox::Cancel)->setText(tr("Скасувати"));
+
+    ui->pushButton_registration->setCursor(Qt::PointingHandCursor);
+    ui->pushButton_authorization->setCursor(Qt::PointingHandCursor);
+
+    validator = new QRegExpValidator(validExp, ui->lineEdit_auth_email);
+    ui->lineEdit_remind_email->setValidator(validator);
+
+    if(!isRemindConnect)
+    {
+        connect(ui->lineEdit_remind_email, SIGNAL(textChanged(QString)), this, SLOT(setEnabledToRemindOk()));
+        connect(ui->buttonBox_in_remind->button(QDialogButtonBox::Ok), SIGNAL(clicked()), this, SLOT(remindPassword()));
+        connect(ui->buttonBox_in_remind->button(QDialogButtonBox::Cancel), SIGNAL(clicked()), this, SLOT(returnToAuth()));
+        isRemindConnect = true;
+    }
 }
 
 void NotesWindow::createAccount()
 {
     QString message;
+
     if(ui->lineEdit_reg_pass->text().compare(ui->lineEdit_reg_pass_check->text()))
         message += "Паролі не співпадають.\n";
     QSqlQuery query(db);
@@ -132,14 +177,7 @@ void NotesWindow::createAccount()
     if(res)
         message += "Обліковий запис з таким email вже існує.\n";
     if(!message.isEmpty())
-    {
-        QMessageBox warning(this);
-        warning.setWindowTitle(tr("Помилка реєстрації"));
-        warning.setIcon(QMessageBox::Warning);
-        warning.setText(message + "Повторіть введення даних!");
-        warning.exec();
-    }
-        //QMessageBox::warning(this, tr("Помилка реєстрації"), message + "Повторіть введення даних!");
+        QMessageBox::warning(this, tr("Помилка реєстрації"), message + "Повторіть введення даних!");
     else
     {
         QSqlQuery query(db);
@@ -155,7 +193,11 @@ void NotesWindow::createAccount()
             writeSettings();
             this->setFixedSize(sizeHint());
             showNotes();
-            //QMessageBox::information(this, tr("Реєстрацію завершено"), "Новий обліковий запис було створено.\nВітаємо, " + ui->lineEdit_reg_log->text() + "!");
+            QMessageBox::information(this, tr("Реєстрацію завершено"), "Новий обліковий запис було створено.\n");
+            ui->lineEdit_reg_log->clear();
+            ui->lineEdit_reg_email->clear();
+            ui->lineEdit_reg_pass->clear();
+            ui->lineEdit_reg_pass_check->clear();
         }
     }
 }
@@ -182,11 +224,20 @@ void NotesWindow::loginInAccount()
             username = name;
             showNotes();
             writeSettings();
-            //QMessageBox::information(this, tr("Авторизацію завершено"), "Вітаємо, " + name + "!");
             ui->labelLogin->setText("Вітаємо, " + username + "!");
+            ui->lineEdit_auth_email->clear();
+            ui->lineEdit_auth_pass->clear();
         }
     }
 }
+
+void NotesWindow::returnToAuth()
+{
+    ui->lineEdit_remind_email->clear();
+    authorization();
+}
+
+void NotesWindow::remindPassword() {}
 
 void NotesWindow::setEnabledToRegOk()
 {
@@ -201,6 +252,14 @@ void NotesWindow::setEnabledToAuthOk()
         ui->buttonBox_in_auth->button(QDialogButtonBox::Ok)->setEnabled(true);
     else
         ui->buttonBox_in_auth->button(QDialogButtonBox::Ok)->setEnabled(false);
+}
+
+void NotesWindow::setEnabledToRemindOk()
+{
+    if(ui->lineEdit_remind_email->hasAcceptableInput())
+        ui->buttonBox_in_remind->button(QDialogButtonBox::Ok)->setEnabled(true);
+    else
+        ui->buttonBox_in_remind->button(QDialogButtonBox::Ok)->setEnabled(false);
 }
 
 void NotesWindow::on_pushButton_new_account_clicked()
@@ -293,24 +352,47 @@ void NotesWindow::showNotes() {
 
 void NotesWindow::createMenu() {
     QMenu *menu = new QMenu("Open", this);
-    QAction *login = new QAction(username, this);
-    login->setIcon(QIcon("resources/Images/accountButtonor.png"));
+
+    QAction *refreshEmail = new QAction("Змінити Email", this);
+    refreshEmail->setShortcut(tr("Ctrl+Alt+E"));
+    refreshEmail->setToolTip(tr("Змінити email облікового запису"));
+    refreshEmail->setStatusTip(tr("Змінити email облікового запису"));
+    refreshEmail->setIcon(QIcon("resources/Images/newEmail.png"));
+
+    QAction *refreshPass = new QAction("Змінити пароль", this);
+    refreshPass->setShortcut(tr("Ctrl+Alt+P"));
+    refreshPass->setToolTip(tr("Змінити пароль облікового запису"));
+    refreshPass->setStatusTip(tr("Змінити пароль облікового запису"));
+    refreshPass->setIcon(QIcon("resources/Images/refreshKey.png"));
+
     QAction *changeAcc = new QAction("Вийти з ОЗ", this);
     changeAcc->setShortcut(tr("Ctrl+E"));
     changeAcc->setToolTip(tr("Вийти з облікового запису"));
     changeAcc->setStatusTip(tr("Вийти з облікового запису"));
     changeAcc->setIcon(QIcon("resources/Images/logout.png"));
+
+    QAction *deleteAcc = new QAction("Видалити ОЗ", this);
+    deleteAcc->setShortcut(tr("Ctrl+D"));
+    deleteAcc->setToolTip(tr("Видалити обліковий запис"));
+    deleteAcc->setStatusTip(tr("Видалити обліковий запис"));
+    deleteAcc->setIcon(QIcon("resources/Images/deleteAccount.png"));
+
     QAction *exit = new QAction("Вийти", this);
     exit->setShortcut(QKeySequence::Close);
     exit->setToolTip(tr("Вийти з програми"));
     exit->setStatusTip(tr("Вийти з програми"));
     exit->setIcon(QIcon("resources/Images/close.png"));
 
-    menu->addAction(login);
+    menu->addAction(refreshEmail);
+    menu->addAction(refreshPass);
     menu->addAction(changeAcc);
+    menu->addAction(deleteAcc);
     menu->addAction(exit);
     ui->accountSettingsButton->setMenu(menu);
+    connect(refreshEmail, SIGNAL(triggered()), this, SLOT(refreshEmail()));
+    connect(refreshPass, SIGNAL(triggered()), this, SLOT(refreshPassword()));
     connect(changeAcc, SIGNAL(triggered()), this, SLOT(changeAccount()));
+    connect(deleteAcc, SIGNAL(triggered()), this, SLOT(deleteAccount()));
     connect(exit, SIGNAL(triggered()), this, SLOT(exitButton()));
 }
 
@@ -325,6 +407,20 @@ void NotesWindow::changeAccount() {
     writeSettings();
     authorization();
 }
+
+void NotesWindow::refreshEmail() {
+    ui->accountSettingsButton->clearFocus();
+    Dialog * dialog = new Dialog(this, this);
+    dialog->setName("Змінити email");
+    dialog->setPasswordFlag();
+    dialog->setEmailFlag();
+    dialog->setLabels("Новий email:", "Підтвердити дію паролем:");
+    dialog->show();
+}
+
+void NotesWindow::refreshPassword(){}
+
+void NotesWindow::deleteAccount(){}
 
 void NotesWindow::on_saveNoteButton_clicked() {
     QDate now = QDate::currentDate();
@@ -534,3 +630,23 @@ Ui::NotesWindow * NotesWindow::getUi()
 {
     return ui;
 }
+
+void NotesWindow::on_pushButton_authorization_clicked()
+{
+    ui->pushButton_authorization->clearFocus();
+    authorization();
+}
+
+void NotesWindow::on_pushButton_registration_clicked()
+{
+    ui->pushButton_registration->clearFocus();
+    registration();
+}
+
+void NotesWindow::on_pushButton_remind_account_clicked()
+{
+    ui->pushButton_remind_account->clearFocus();
+    remind();
+}
+
+void NotesWindow::getDataFromDialog(QString s, QString s2){}
