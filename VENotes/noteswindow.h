@@ -42,7 +42,7 @@ public:
     static bool connectDB();
     Ui::NotesWindow * getUi();
     void setDate(QString);
-    void getDataFromDialog(QString, QString);
+    void getDataFromDialog(QString, QString, bool);
     ~NotesWindow();
 
 private slots:
@@ -86,7 +86,11 @@ private slots:
 
     void changeAccount();
 
+    void showRefreshEmail();
+
     void refreshEmail();
+
+    void showRefreshPassword();
 
     void refreshPassword();
 

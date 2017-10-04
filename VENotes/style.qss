@@ -35,7 +35,7 @@ QLabel#labelLogin
 	font-size: 15px;
 	font-weight: bold;
 }
-QLineEdit#lineEdit_reg_log, #lineEdit_reg_pass, #lineEdit_reg_pass_check, #lineEdit_reg_email, #lineEdit_auth_email, #lineEdit_auth_pass, #notesName, #lineEdit_remind_email
+QLineEdit#lineEdit_reg_log, #lineEdit_reg_pass, #lineEdit_reg_pass_check, #lineEdit_reg_email, #lineEdit_auth_email, #lineEdit_auth_pass, #notesName, #lineEdit_remind_email, #lineEdit_1, #lineEdit_2
 {
 	border: 2px solid #1E90FF;
 	border-radius: 6px;
@@ -48,12 +48,12 @@ QLineEdit#notesName
 {
 	font-size: 15px;
 }
-	QLineEdit#lineEdit_reg_log:hover, #lineEdit_reg_pass:hover, #lineEdit_reg_pass_check:hover, #lineEdit_reg_email:hover, #lineEdit_auth_email:hover, #lineEdit_auth_pass:hover, #notesName:hover, #lineEdit_remind_email:hover
+	QLineEdit#lineEdit_reg_log:hover, #lineEdit_reg_pass:hover, #lineEdit_reg_pass_check:hover, #lineEdit_reg_email:hover, #lineEdit_auth_email:hover, #lineEdit_auth_pass:hover, #notesName:hover, #lineEdit_remind_email:hover, #lineEdit_1:hover, #lineEdit_2:hover
 	{
 		border: 2px solid #FF9C0C;
 		color: #1E90FF;
 	}
-	QLineEdit#lineEdit_reg_log:focus, #lineEdit_reg_pass:focus, #lineEdit_reg_pass_check:focus, #lineEdit_reg_email:focus, #lineEdit_auth_email:focus, #lineEdit_auth_pass:focus, #notesName:focus, #lineEdit_remind_email:focus
+	QLineEdit#lineEdit_reg_log:focus, #lineEdit_reg_pass:focus, #lineEdit_reg_pass_check:focus, #lineEdit_reg_email:focus, #lineEdit_auth_email:focus, #lineEdit_auth_pass:focus, #notesName:focus, #lineEdit_remind_email:focus, #lineEdit_1:focus, #lineEdit_2:focus
 	{
 		border: 2px solid #FF9C0C;
 		color: #1E90FF;
@@ -331,3 +331,9 @@ Dialog
 {
 	background: white;
 }	
+Dialog > QLabel#label_1, #label_2
+{
+	color: #0A59A6;
+	font-size: 15px;
+	font-weight: normal;
+}

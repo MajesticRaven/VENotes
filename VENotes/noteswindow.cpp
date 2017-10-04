@@ -15,6 +15,7 @@ QList<note> notesList;
 QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
 QRegExp validExp("\\b[a-zA-Z0-9]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}\\b");
 bool isRegConnect = false, isAuthConnect = false, isRemindConnect = false;
+QString result1OfDialog, result2OfDialog;
 
 NotesWindow::NotesWindow(QWidget *parent) :
     QWidget(parent),
@@ -372,7 +373,7 @@ void NotesWindow::createMenu() {
     changeAcc->setIcon(QIcon("resources/Images/logout.png"));
 
     QAction *deleteAcc = new QAction("Видалити ОЗ", this);
-    deleteAcc->setShortcut(tr("Ctrl+D"));
+    deleteAcc->setShortcut(tr("Ctrl+Alt+D"));
     deleteAcc->setToolTip(tr("Видалити обліковий запис"));
     deleteAcc->setStatusTip(tr("Видалити обліковий запис"));
     deleteAcc->setIcon(QIcon("resources/Images/deleteAccount.png"));
@@ -389,8 +390,8 @@ void NotesWindow::createMenu() {
     menu->addAction(deleteAcc);
     menu->addAction(exit);
     ui->accountSettingsButton->setMenu(menu);
-    connect(refreshEmail, SIGNAL(triggered()), this, SLOT(refreshEmail()));
-    connect(refreshPass, SIGNAL(triggered()), this, SLOT(refreshPassword()));
+    connect(refreshEmail, SIGNAL(triggered()), this, SLOT(showRefreshEmail()));
+    connect(refreshPass, SIGNAL(triggered()), this, SLOT(showRefreshPassword()));
     connect(changeAcc, SIGNAL(triggered()), this, SLOT(changeAccount()));
     connect(deleteAcc, SIGNAL(triggered()), this, SLOT(deleteAccount()));
     connect(exit, SIGNAL(triggered()), this, SLOT(exitButton()));
@@ -408,7 +409,7 @@ void NotesWindow::changeAccount() {
     authorization();
 }
 
-void NotesWindow::refreshEmail() {
+void NotesWindow::showRefreshEmail() {
     ui->accountSettingsButton->clearFocus();
     Dialog * dialog = new Dialog(this, this);
     dialog->setName("Змінити email");
@@ -418,9 +419,90 @@ void NotesWindow::refreshEmail() {
     dialog->show();
 }
 
-void NotesWindow::refreshPassword(){}
+void NotesWindow::refreshEmail() {
+    QSqlQuery query(db);
+    query.prepare("SELECT password FROM users WHERE login = :login");
+    query.bindValue(":login", username);
+    if(!query.exec())
+        QMessageBox::warning(this, tr("Помилка"), "Не вдалося під`єднатися до бази даних!");
+    else
+    {
+        query.next();
+        QString password = query.value(0).toString();
+        if(password != QCryptographicHash::hash(result2OfDialog.toUtf8(), QCryptographicHash::Md5).toHex())
+            QMessageBox::warning(this, tr("Помилка"), "Пароль було вказано невірно!");
+        else
+        {
+            query.prepare("UPDATE users SET email = :email WHERE login = :login AND password = :password");
+            query.bindValue(":email", result1OfDialog);
+            query.bindValue(":password", QCryptographicHash::hash(result2OfDialog.toUtf8(), QCryptographicHash::Md5).toHex());
+            query.bindValue(":login", username);
+            if(!query.exec())
+                QMessageBox::warning(this, tr("Помилка"), "Не вдалося змінити email!");
+            else QMessageBox::information(this, tr("Зміна email"), "Email було успішно змінено!");
+        }
+    }
+}
 
-void NotesWindow::deleteAccount(){}
+void NotesWindow::showRefreshPassword() {
+    ui->accountSettingsButton->clearFocus();
+    Dialog * dialog = new Dialog(this, this);
+    dialog->setName("Змінити пароль");
+    dialog->setPasswordFlag();
+    dialog->setLabels("Новий пароль:", "Старий пароль:");
+    dialog->show();
+}
+
+void NotesWindow::refreshPassword() {
+    QSqlQuery query(db);
+    query.prepare("SELECT password FROM users WHERE login = :login");
+    query.bindValue(":login", username);
+    if(!query.exec())
+        QMessageBox::warning(this, tr("Помилка"), "Не вдалося під`єднатися до бази даних!");
+    else
+    {
+        query.next();
+        QString password = query.value(0).toString();
+        if(password != QCryptographicHash::hash(result2OfDialog.toUtf8(), QCryptographicHash::Md5).toHex())
+            QMessageBox::warning(this, tr("Помилка"), "Старий пароль було вказано невірно!");
+        else
+        {
+            query.prepare("UPDATE users SET password = :newPassword WHERE login = :login AND password = :oldPassword");
+            query.bindValue(":oldPassword", QCryptographicHash::hash(result2OfDialog.toUtf8(), QCryptographicHash::Md5).toHex());
+            query.bindValue(":newPassword", QCryptographicHash::hash(result1OfDialog.toUtf8(), QCryptographicHash::Md5).toHex());
+            query.bindValue(":login", username);
+            if(!query.exec())
+                QMessageBox::warning(this, tr("Помилка"), "Не вдалося змінити пароль!");
+            else QMessageBox::information(this, tr("Зміна паролю"), "Пароль було успішно змінено!");
+        }
+    }
+}
+
+void NotesWindow::deleteAccount() {
+    QMessageBox * pmbx = new QMessageBox();
+    pmbx->setWindowTitle(tr("Підтвердження дії"));
+    pmbx->setText("Ви впевнені, що хочете видалити обліковий запис?\nУ цьому випадку буде видалено всі нотатки.");
+    pmbx->addButton("Так", QMessageBox::AcceptRole);
+    pmbx->addButton("Ні", QMessageBox::RejectRole);
+    int n = pmbx->exec();
+    delete pmbx;
+    if (n == QMessageBox::AcceptRole)
+    {
+        QSqlQuery query(db);
+        query.prepare("DELETE FROM users WHERE login = :login");
+        query.bindValue(":login", username);
+        if(!query.exec())
+            QMessageBox::warning(this, tr("Помилка"), "Не вдалося під`єднатися до бази даних!");
+        else
+        {
+            QMessageBox::information(this, tr("Видалення ОЗ"), "Обліковий запис було видалено!");
+            QFile file(noteLocation + username + ".txt");
+            file.remove();
+            username = "";
+            registration();
+        }
+    }
+}
 
 void NotesWindow::on_saveNoteButton_clicked() {
     QDate now = QDate::currentDate();
@@ -649,4 +731,11 @@ void NotesWindow::on_pushButton_remind_account_clicked()
     remind();
 }
 
-void NotesWindow::getDataFromDialog(QString s, QString s2){}
+void NotesWindow::getDataFromDialog(QString s, QString s2, bool email_or_pass)
+{
+    result1OfDialog = s;
+    result2OfDialog = s2;
+    if(email_or_pass)
+        refreshEmail();
+    else refreshPassword();
+}

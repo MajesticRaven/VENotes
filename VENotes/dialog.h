@@ -29,6 +29,12 @@ private:
 private slots:
     void returnData();
     void setEnabledToOk();
+
+    void on_buttonBox_accepted();
+
+signals:
+    void refreshEmailSignal();
+    void refreshPasswordSignal();
 };
 
 #endif // DIALOG_H
