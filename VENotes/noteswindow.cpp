@@ -337,6 +337,7 @@ void NotesWindow::showNotes() {
     ui->stackedWidget->currentWidget()->setFocus();
     ui->newNoteButton->clearFocus();
     this->setFixedSize((ui->stackedWidget->currentWidget()->sizeHint()));
+    this->setFixedWidth(this->width() + 100);
     this->setFixedHeight(600);
     readXML();
     makeListOfNotes();
@@ -398,6 +399,8 @@ void NotesWindow::exitButton() {
 void NotesWindow::changeAccount() {
     username = "";
     ui->accountSettingsButton->clearFocus();
+    ui->notesName->clear();
+    ui->notesText->clear();
     writeSettings();
     authorization();
 }
@@ -526,6 +529,8 @@ void NotesWindow::on_saveNoteButton_clicked() {
         notesList.push_back(buf);
     }
 
+    ui->saveNoteButton->clearFocus();
+
     WriteXML();
     makeListOfNotes();
 }
@@ -613,6 +618,7 @@ void NotesWindow::on_newNoteButton_clicked() {
     ui->notesText->setText("");
     ui->saveNoteButton->setEnabled(true);
     ui->notificationButton->setEnabled(true);
+    ui->newNoteButton->clearFocus();
     openID = -1;
 }
 
@@ -627,7 +633,9 @@ void NotesWindow::on_deleteNoteButton_clicked() {
     ui->notesText->setText("");
     ui->notesName->setEnabled(false);
     ui->notesText->setEnabled(false);
-
+    ui->saveNoteButton->setEnabled(false);
+    ui->notificationButton->setEnabled(false);
+    ui->deleteNoteButton->clearFocus();
     WriteXML();
     makeListOfNotes();
 }
