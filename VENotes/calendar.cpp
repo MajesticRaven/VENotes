@@ -10,6 +10,7 @@ Calendar::Calendar(QWidget *parent) :
     this->parent = (NotesWindow *)parent;
     ui->setupUi(this);
     this->setWindowTitle(tr("Нагадати про подію"));
+    this->setFixedSize(this->sizeHint());
 }
 
 Calendar::~Calendar()
@@ -20,13 +21,11 @@ Calendar::~Calendar()
 
 void Calendar::on_CancelButton_clicked()
 {
-    parent->getUi()->notificationButton->clearFocus();
     close();
 }
 
 void Calendar::on_OkButton_clicked()
 {
     parent->setDate(ui->calendarWidget->selectedDate().toString());
-    parent->getUi()->notificationButton->clearFocus();
     close();
 }

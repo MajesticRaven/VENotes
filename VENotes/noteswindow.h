@@ -64,10 +64,6 @@ private slots:
 
     void on_pushButton_new_account_clicked();
 
-    void on_fontComboBox_activated();
-
-    void on_spinBox_valueChanged();
-
     void showNotes();
 
     void on_saveNoteButton_clicked();

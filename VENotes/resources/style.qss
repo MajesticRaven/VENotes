@@ -14,18 +14,28 @@ QWidget#page_3
 {
 	border-image: url(resources/Images/background.png);
 }
-QLabel#label_registration, #label_authorization
+QWidget#page_5
+{
+	border-image: url(resources/Images/backgroundAuth.png);
+}
+QLabel#label_registration, #label_authorization, #label_remind, #label_name, #label_calendar_name
 {
 	font-size: 18px;
 	font-weight: bold;
 	color: #1E90FF;
 }
-QLabel#label_reg_log, #label_reg_pass, #label_reg_pass_check, #label_reg_email, #label_auth_email, #label_auth_pass
+QLabel#label_reg_log, #label_reg_pass, #label_reg_pass_check, #label_reg_email, #label_auth_email, #label_auth_pass, #label_remind_email
 {
 	color: #0A59A6;
 	font-size: 15px;
 }
-QLineEdit#lineEdit_reg_log, #lineEdit_reg_pass, #lineEdit_reg_pass_check, #lineEdit_reg_email, #lineEdit_auth_email, #lineEdit_auth_pass, #notesName
+QLabel#labelLogin
+{
+	color: white;
+	font-size: 15px;
+	font-weight: bold;
+}
+QLineEdit#lineEdit_reg_log, #lineEdit_reg_pass, #lineEdit_reg_pass_check, #lineEdit_reg_email, #lineEdit_auth_email, #lineEdit_auth_pass, #notesName, #lineEdit_remind_email, #lineEdit_1, #lineEdit_2
 {
 	border: 2px solid #1E90FF;
 	border-radius: 6px;
@@ -36,23 +46,25 @@ QLineEdit#lineEdit_reg_log, #lineEdit_reg_pass, #lineEdit_reg_pass_check, #lineE
 }
 QLineEdit#notesName
 {
-	font-size: 15px;
+	font-size: 19px;
+	font-family: Tahoma;
 }
-	QLineEdit#lineEdit_reg_log:hover, #lineEdit_reg_pass:hover, #lineEdit_reg_pass_check:hover, #lineEdit_reg_email:hover, #lineEdit_auth_email:hover, #lineEdit_auth_pass:hover, #notesName:hover
+	QLineEdit#lineEdit_reg_log:hover, #lineEdit_reg_pass:hover, #lineEdit_reg_pass_check:hover, #lineEdit_reg_email:hover, #lineEdit_auth_email:hover, #lineEdit_auth_pass:hover, #notesName:hover, #lineEdit_remind_email:hover, #lineEdit_1:hover, #lineEdit_2:hover
 	{
 		border: 2px solid #FF9C0C;
 		color: #1E90FF;
 	}
-	QLineEdit#lineEdit_reg_log:focus, #lineEdit_reg_pass:focus, #lineEdit_reg_pass_check:focus, #lineEdit_reg_email:focus, #lineEdit_auth_email:focus, #lineEdit_auth_pass:focus, #notesName:focus
+	QLineEdit#lineEdit_reg_log:focus, #lineEdit_reg_pass:focus, #lineEdit_reg_pass_check:focus, #lineEdit_reg_email:focus, #lineEdit_auth_email:focus, #lineEdit_auth_pass:focus, #notesName:focus, #lineEdit_remind_email:focus, #lineEdit_1:focus, #lineEdit_2:focus
 	{
 		border: 2px solid #FF9C0C;
 		color: #1E90FF;
+		outline: none;
 	}
 	QLineEdit#notesName:disabled
 	{
 		border: 2px solid #BBDDFF;
 	}
-QPushButton#pushButton_remind_account, #pushButton_new_account, #pushButton_auth
+QPushButton#pushButton_remind_account, #pushButton_new_account, #pushButton_auth, #pushButton_authorization, #pushButton_registration
 {
 	background: none;
 	border: none;
@@ -61,12 +73,12 @@ QPushButton#pushButton_remind_account, #pushButton_new_account, #pushButton_auth
 	margin-bottom: 7px;
 	text-decoration: underline;
 }	
-	QPushButton#pushButton_remind_account:hover, #pushButton_new_account:hover, #pushButton_auth:hover
+	QPushButton#pushButton_remind_account:hover, #pushButton_new_account:hover, #pushButton_auth:hover, #pushButton_authorization:hover, #pushButton_registration:hover
 	{
 		color: #FF9C0C;
 		text-decoration: none;
 	}	
-	QPushButton#pushButton_remind_account:focus, #pushButton_new_account:focus, #pushButton_auth:focus
+	QPushButton#pushButton_remind_account:focus, #pushButton_new_account:focus, #pushButton_auth:focus, #pushButton_authorization:focus, #pushButton_registration:focus
 	{
 		border: none;
 		color: #FF9C0C;
@@ -122,7 +134,7 @@ QMessageBox > QDialogButtonBox > QPushButton
 	margin-bottom: 5px;
 	padding: 1px;
 }
-QPushButton#SearchButton, #newNoteButton, #accountSettingsButton, #deleteNoteButton, #notificationButton, #saveNoteButton
+QPushButton#SearchButton, #accountSettingsButton, #deleteNoteButton, #notificationButton, #saveNoteButton
 {
 	height: 50px;
 	width: 50px;
@@ -130,6 +142,7 @@ QPushButton#SearchButton, #newNoteButton, #accountSettingsButton, #deleteNoteBut
 QPushButton#SearchButton
 {
 	border-image: url(resources/Images/searchor.png);
+	margin-left: -6px;
 }
 	QPushButton#SearchButton:hover
 	{
@@ -141,22 +154,32 @@ QPushButton#SearchButton
 	}
 QPushButton#newNoteButton
 {
-	border-image: url(resources/Images/addButtonor.png);
-	height: 48px;
+	border-image: url(resources/Images/newAddButton.png);
+	max-height: 40px;
+	min-height: 40px;
 	margin-bottom: 1px;
-	width: 48px;
+	min-width: 40px;
+	max-width: 40px;
+	height: 40px;
+	width: 40px;
 }
 	QPushButton#newNoteButton:hover
 	{
-		border-image: url(resources/Images/addButtonwhite.png);
+		border-image: url(resources/Images/newAddButtonWhite.png);
 	}
 	QPushButton#newNoteButton:focus
 	{
-		border-image: url(resources/Images/addButtonwhite.png);
+		border-image: url(resources/Images/newAddButtonWhite.png);
 	}
 QPushButton#deleteNoteButton
 {
 	border-image: url(resources/Images/deleteor.png);
+	max-height: 41px;
+	min-height: 41px;
+	min-width: 41px;
+	max-width: 41px;
+	height: 41px;
+	width: 41px;
 }
 	QPushButton#deleteNoteButton:hover
 	{
@@ -180,6 +203,10 @@ QPushButton#saveNoteButton
 	{
 		border-image: url(resources/Images/savewhite.png);
 	}
+	QPushButton#saveNoteButton:disabled
+	{
+		border-image: url(resources/Images/saveDis.png);
+	}
 QPushButton#notificationButton
 {
 	border-image: url(resources/Images/NotificationWhiteor.png);
@@ -193,6 +220,10 @@ QPushButton#notificationButton
 	QPushButton#notificationButton:focus
 	{
 		border-image: url(resources/Images/NotificationBlueWhite.png);
+	}
+	QPushButton#notificationButton:disabled
+	{
+		border-image: url(resources/Images/NotificationWhiteDis.png);
 	}
 QPushButton#accountSettingsButton
 {
@@ -210,7 +241,7 @@ QPushButton#accountSettingsButton
 	{
 		border-image: url(resources/Images/accountButtonwhite.png);
 	}
-QMenu
+/*QMenu
 {
 	background: #0A59A6;
 	color: white;
@@ -225,11 +256,12 @@ QMenu
 	QMenu::separator
 	{
 		background-color: white;
-	}
-QTextBrowser#notesText
+	}*/
+#notesText
 {
 	border-image: url(resources/Images/background.jpg);
-	font-size: 17px;
+	font-family: Tahoma;
+	font-size: 18px;
 	padding-bottom: 10px;
 	padding-left: 10px;
 	padding-right: 10px;
@@ -239,42 +271,6 @@ QTextBrowser#notesText
 	{
 		border-image: url(resources/Images/noteBackgroundDisabled.png);
 	}
-QFontComboBox#fontComboBox
-{
-	background: white;
-	border: 2px solid #1E90FF;
-	color: #FF9C0C;
-	font-size: 15px;
-	padding: 3px;
-}
-	QFontComboBox#fontComboBox:hover
-	{
-		border: 2px solid #FF9C0C;
-		color: #1E90FF;
-	}
-	QFontComboBox#fontComboBox:disabled
-	{
-		color: grey;
-		border: 2px solid #BBDDFF;
-	}
-QSpinBox#spinBox
-{
-	background: white;
-	border: 2px solid #1E90FF;
-	color: #FF9C0C;
-	font-size: 15px;
-	padding: 3px;
-}
-	QSpinBox#spinBox:hover
-	{
-		border: 2px solid #FF9C0C;
-		color: #1E90FF;
-	}	
-	QSpinBox#spinBox:disabled
-	{
-		color: grey;
-		border: 2px solid #BBDDFF;
-	}	
 QListWidget#notesShowList
 {
 	border: 2px solid #1E90FF;
@@ -286,4 +282,43 @@ QListWidgetItem
 	background: red;
 	border: 2px solid red;
 	color: red;
+}
+
+Calendar
+{
+	background-color: white;
+}
+QPushButton#OkButton, #CancelButton
+{
+	background: #1E90FF;
+	border: 2px solid #1E90FF;
+	border-radius: 6px;
+	color: #FFF;
+	font-size: 19px;
+	margin-bottom: 10px;
+	padding: 1px;
+	width: 95px;
+}
+	QPushButton#OkButton:hover, #CancelButton:hover
+	{
+		background: #FF9C0C;
+		border: 2px solid #FF9C0C;
+		width: 95px;
+	}
+	QPushButton#OkButton:focus, #CancelButton:focus
+	{
+		background: #FF9C0C;
+		border: 2px solid #FF9C0C;
+		width: 95px;
+	}
+	
+Dialog
+{
+	background: white;
+}	
+Dialog > QLabel#label_1, #label_2
+{
+	color: #0A59A6;
+	font-size: 15px;
+	font-weight: normal;
 }

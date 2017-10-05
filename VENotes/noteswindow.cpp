@@ -327,22 +327,15 @@ void NotesWindow::WriteXML() {
     writeTo.close();
 }
 
-void NotesWindow::on_fontComboBox_activated() {
-    ui->notesText->setFont(ui->fontComboBox->currentFont());
-}
-
-void NotesWindow::on_spinBox_valueChanged() {
-    ui->notesText->setStyleSheet("font: " + QString::number(ui->spinBox->value()) + "pt;");
-}
-
 void NotesWindow::showNotes() {
     ui->notesName->setEnabled(false);
     ui->notesText->setEnabled(false);
-    ui->spinBox->setEnabled(false);
-    ui->fontComboBox->setEnabled(false);
+    ui->saveNoteButton->setEnabled(false);
+    ui->notificationButton->setEnabled(false);
     ui->stackedWidget->setCurrentIndex(2);
-    ui->SearchButton->setAutoDefault(false);
-    ui->SearchButton->clearFocus();
+    ui->newNoteButton->setAutoDefault(false);
+    ui->stackedWidget->currentWidget()->setFocus();
+    ui->newNoteButton->clearFocus();
     this->setFixedSize((ui->stackedWidget->currentWidget()->sizeHint()));
     this->setFixedHeight(600);
     readXML();
@@ -417,6 +410,7 @@ void NotesWindow::showRefreshEmail() {
     dialog->setEmailFlag();
     dialog->setLabels("Новий email:", "Підтвердити дію паролем:");
     dialog->show();
+    this->setFocus();
 }
 
 void NotesWindow::refreshEmail() {
@@ -451,6 +445,7 @@ void NotesWindow::showRefreshPassword() {
     dialog->setPasswordFlag();
     dialog->setLabels("Новий пароль:", "Старий пароль:");
     dialog->show();
+    this->setFocus();
 }
 
 void NotesWindow::refreshPassword() {
@@ -601,9 +596,8 @@ void NotesWindow::on_notesShowList_itemDoubleClicked() {
        if(notesList[i].nameOfNote == name) {
            ui->notesName->setEnabled(true);
            ui->notesText->setEnabled(true);
-           ui->spinBox->setEnabled(true);
-           ui->fontComboBox->setEnabled(true);
-
+           ui->saveNoteButton->setEnabled(true);
+           ui->notificationButton->setEnabled(true);
            ui->notesName->setText(notesList[i].nameOfNote);
            ui->notesText->setText(notesList[i].textOfNote);
            openID = notesList[i].ID;
@@ -617,8 +611,8 @@ void NotesWindow::on_newNoteButton_clicked() {
     ui->notesName->setText("");
     ui->notesText->setEnabled(true);
     ui->notesText->setText("");
-    ui->spinBox->setEnabled(true);
-    ui->fontComboBox->setEnabled(true);
+    ui->saveNoteButton->setEnabled(true);
+    ui->notificationButton->setEnabled(true);
     openID = -1;
 }
 
@@ -633,8 +627,6 @@ void NotesWindow::on_deleteNoteButton_clicked() {
     ui->notesText->setText("");
     ui->notesName->setEnabled(false);
     ui->notesText->setEnabled(false);
-    ui->spinBox->setEnabled(false);
-    ui->fontComboBox->setEnabled(false);
 
     WriteXML();
     makeListOfNotes();
@@ -650,6 +642,7 @@ void NotesWindow::on_notificationButton_clicked()
         Calendar * calendar = new Calendar(this);
         calendar->show();
         calendar->exec();
+        ui->notificationButton->clearFocus();
     }
 }
 

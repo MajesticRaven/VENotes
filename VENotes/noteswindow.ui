@@ -32,7 +32,7 @@
       <enum>Qt::StrongFocus</enum>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="page">
       <property name="focusPolicy">
@@ -932,47 +932,7 @@
               <widget class="QLineEdit" name="notesName"/>
              </item>
              <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_8">
-               <item>
-                <spacer name="horizontalSpacer_43">
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                 <property name="sizeHint" stdset="0">
-                  <size>
-                   <width>40</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                </spacer>
-               </item>
-               <item>
-                <widget class="QFontComboBox" name="fontComboBox"/>
-               </item>
-               <item>
-                <widget class="QSpinBox" name="spinBox">
-                 <property name="minimum">
-                  <number>8</number>
-                 </property>
-                 <property name="maximum">
-                  <number>29</number>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <spacer name="horizontalSpacer_6">
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                 <property name="sizeHint" stdset="0">
-                  <size>
-                   <width>40</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                </spacer>
-               </item>
-              </layout>
+              <layout class="QHBoxLayout" name="horizontalLayout_8"/>
              </item>
              <item>
               <widget class="QTextBrowser" name="notesText">
@@ -986,25 +946,6 @@
            <item>
             <layout class="QHBoxLayout" name="horizontalLayout_9">
              <item>
-              <widget class="QPushButton" name="notificationButton">
-               <property name="toolTip">
-                <string>Нагадати про подію</string>
-               </property>
-               <property name="statusTip">
-                <string>Нагадати про подію</string>
-               </property>
-               <property name="whatsThis">
-                <string>Нагадати про подію</string>
-               </property>
-               <property name="text">
-                <string/>
-               </property>
-               <property name="shortcut">
-                <string>Ctrl+R</string>
-               </property>
-              </widget>
-             </item>
-             <item>
               <spacer name="horizontalSpacer_7">
                <property name="orientation">
                 <enum>Qt::Horizontal</enum>
@@ -1016,25 +957,6 @@
                 </size>
                </property>
               </spacer>
-             </item>
-             <item>
-              <widget class="QPushButton" name="deleteNoteButton">
-               <property name="toolTip">
-                <string>Видалити</string>
-               </property>
-               <property name="statusTip">
-                <string>Видалити</string>
-               </property>
-               <property name="whatsThis">
-                <string>Видалити</string>
-               </property>
-               <property name="text">
-                <string/>
-               </property>
-               <property name="shortcut">
-                <string>Ctrl+D</string>
-               </property>
-              </widget>
              </item>
              <item>
               <widget class="QPushButton" name="saveNoteButton">
@@ -1055,6 +977,25 @@
                </property>
               </widget>
              </item>
+             <item>
+              <widget class="QPushButton" name="notificationButton">
+               <property name="toolTip">
+                <string>Нагадати про подію</string>
+               </property>
+               <property name="statusTip">
+                <string>Нагадати про подію</string>
+               </property>
+               <property name="whatsThis">
+                <string>Нагадати про подію</string>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="shortcut">
+                <string>Ctrl+R</string>
+               </property>
+              </widget>
+             </item>
             </layout>
            </item>
           </layout>
@@ -1063,6 +1004,44 @@
           <layout class="QVBoxLayout" name="verticalLayout_4">
            <item>
             <layout class="QHBoxLayout" name="horizontalLayout_12">
+             <item>
+              <widget class="QPushButton" name="newNoteButton">
+               <property name="toolTip">
+                <string>Створити нотатку</string>
+               </property>
+               <property name="statusTip">
+                <string>Створити нотатку</string>
+               </property>
+               <property name="whatsThis">
+                <string>Створити нотатку</string>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="shortcut">
+                <string>Ctrl+N</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="deleteNoteButton">
+               <property name="toolTip">
+                <string>Видалити</string>
+               </property>
+               <property name="statusTip">
+                <string>Видалити</string>
+               </property>
+               <property name="whatsThis">
+                <string>Видалити</string>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="shortcut">
+                <string>Ctrl+D</string>
+               </property>
+              </widget>
+             </item>
              <item>
               <widget class="QPushButton" name="SearchButton">
                <property name="focusPolicy">
@@ -1125,21 +1104,15 @@
               </spacer>
              </item>
              <item>
-              <widget class="QPushButton" name="newNoteButton">
-               <property name="toolTip">
-                <string>Створити нотатку</string>
+              <widget class="QPushButton" name="pushButton">
+               <property name="focusPolicy">
+                <enum>Qt::NoFocus</enum>
                </property>
-               <property name="statusTip">
-                <string>Створити нотатку</string>
-               </property>
-               <property name="whatsThis">
-                <string>Створити нотатку</string>
+               <property name="styleSheet">
+                <string notr="true">background: none; border: none; height: 50px;</string>
                </property>
                <property name="text">
                 <string/>
-               </property>
-               <property name="shortcut">
-                <string>Ctrl+N</string>
                </property>
               </widget>
              </item>
@@ -1586,30 +1559,31 @@
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <tabstops>
-  <tabstop>OkButton</tabstop>
+  <tabstop>CancelButton</tabstop>
   <tabstop>lineEdit_auth_email</tabstop>
   <tabstop>lineEdit_auth_pass</tabstop>
   <tabstop>pushButton_remind_account</tabstop>
   <tabstop>pushButton_new_account</tabstop>
-  <tabstop>CancelButton</tabstop>
+  <tabstop>calendarWidget</tabstop>
   <tabstop>lineEdit_reg_log</tabstop>
   <tabstop>lineEdit_reg_pass</tabstop>
   <tabstop>lineEdit_reg_pass_check</tabstop>
   <tabstop>lineEdit_reg_email</tabstop>
   <tabstop>pushButton_auth</tabstop>
-  <tabstop>stackedWidget</tabstop>
+  <tabstop>OkButton</tabstop>
+  <tabstop>newNoteButton</tabstop>
+  <tabstop>deleteNoteButton</tabstop>
   <tabstop>SearchButton</tabstop>
   <tabstop>accountSettingsButton</tabstop>
-  <tabstop>newNoteButton</tabstop>
-  <tabstop>notificationButton</tabstop>
-  <tabstop>deleteNoteButton</tabstop>
-  <tabstop>saveNoteButton</tabstop>
   <tabstop>notesShowList</tabstop>
+  <tabstop>saveNoteButton</tabstop>
+  <tabstop>notificationButton</tabstop>
   <tabstop>notesName</tabstop>
-  <tabstop>fontComboBox</tabstop>
-  <tabstop>spinBox</tabstop>
   <tabstop>notesText</tabstop>
-  <tabstop>calendarWidget</tabstop>
+  <tabstop>stackedWidget</tabstop>
+  <tabstop>lineEdit_remind_email</tabstop>
+  <tabstop>pushButton_authorization</tabstop>
+  <tabstop>pushButton_registration</tabstop>
  </tabstops>
  <resources/>
  <connections>

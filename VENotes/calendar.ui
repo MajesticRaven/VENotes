@@ -32,9 +32,9 @@
         </spacer>
        </item>
        <item>
-        <widget class="QLabel" name="label_2">
+        <widget class="QLabel" name="label_calendar_name">
          <property name="styleSheet">
-          <string notr="true">font: 12pt &quot;Kristen ITC&quot;;</string>
+          <string notr="true"/>
          </property>
          <property name="text">
           <string>Оберiть дату повiдомлення</string>

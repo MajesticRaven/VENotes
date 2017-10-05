@@ -27,16 +27,19 @@ SOURCES += \
         main.cpp \
         noteswindow.cpp \
     calendar.cpp \
-    dialog.cpp
+    dialog.cpp \
+    finddialog.cpp
 
 HEADERS += \
         noteswindow.h \
     calendar.h \
-    dialog.h
+    dialog.h \
+    finddialog.h
 
 FORMS += \
         noteswindow.ui \
     calendar.ui \
-    dialog.ui
+    dialog.ui \
+    finddialog.ui
 
     win32:RC_ICONS += logo_icon.ico
