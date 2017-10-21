@@ -12,7 +12,7 @@
 #include <QMenu>
 #include <QAction>
 #include <QDateTime>
-#include <QSqlDatabase>
+#include <QtSql/QSqlDatabase>
 #include <QSqlQuery>
 #include <QSqlResult>
 #include <QCryptographicHash>
@@ -22,6 +22,7 @@
 #include <QIcon>
 #include "calendar.h"
 #include "dialog.h"
+#include "finddialog.h"
 
 class QValidator;
 class QRegExp;
@@ -43,6 +44,7 @@ public:
     Ui::NotesWindow * getUi();
     void setDate(QString);
     void getDataFromDialog(QString, QString, bool);
+    void search(QString, bool, bool);
     ~NotesWindow();
 
 private slots:
@@ -68,7 +70,7 @@ private slots:
 
     void on_saveNoteButton_clicked();
 
-    void makeListOfNotes();
+    void makeListOfNotes(bool);
 
     void on_notesShowList_itemDoubleClicked();
 
@@ -111,11 +113,16 @@ private slots:
     void writeSettings();
 
     void returnToAuth();
+
     void on_pushButton_authorization_clicked();
 
     void on_pushButton_registration_clicked();
 
     void on_pushButton_remind_account_clicked();
+
+    void on_listSearchButton_clicked();
+
+    void on_notesShowList_clicked(const QModelIndex &index);
 
 private:
     Ui::NotesWindow *ui;

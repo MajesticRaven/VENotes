@@ -46,7 +46,6 @@ void Dialog::setEnabledToOk()
 }
 void Dialog::setName(QString name)
 {
-    this->setWindowTitle(name);
     ui->label_name->setText(name);
 }
 void Dialog::setLabels(QString label1, QString label2)

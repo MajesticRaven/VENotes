@@ -32,7 +32,7 @@
       <enum>Qt::StrongFocus</enum>
      </property>
      <property name="currentIndex">
-      <number>2</number>
+      <number>4</number>
      </property>
      <widget class="QWidget" name="page">
       <property name="focusPolicy">
@@ -82,7 +82,7 @@
                 <string/>
                </property>
                <property name="pixmap">
-                <pixmap>../build-VENotes-Desktop_Qt_5_9_1_MinGW_32bit-Debug/debug/resources/Images/logoRealBlue.png</pixmap>
+                <pixmap>../build-VENotes-Desktop_Qt_5_9_1_MinGW_32bit-Release/resources/Images/logoRealBlue.png</pixmap>
                </property>
                <property name="scaledContents">
                 <bool>true</bool>
@@ -446,7 +446,7 @@
                 <string/>
                </property>
                <property name="pixmap">
-                <pixmap>../build-VENotes-Desktop_Qt_5_9_1_MinGW_32bit-Debug/debug/resources/Images/logoRealBlue.png</pixmap>
+                <pixmap>../build-VENotes-Desktop_Qt_5_9_1_MinGW_32bit-Release/resources/Images/logoRealBlue.png</pixmap>
                </property>
                <property name="scaledContents">
                 <bool>true</bool>
@@ -865,7 +865,7 @@
         <number>0</number>
        </property>
        <item row="0" column="0">
-        <layout class="QGridLayout" name="gridLayout_3" columnstretch="1,2">
+        <layout class="QGridLayout" name="gridLayout_3" columnstretch="1,0">
          <property name="leftMargin">
           <number>3</number>
          </property>
@@ -908,13 +908,13 @@
                 <enum>Qt::StrongFocus</enum>
                </property>
                <property name="toolTip">
-                <string>Налаштування ОЗ</string>
+                <string>Налаштування ОЗ | Ctrl + A</string>
                </property>
                <property name="statusTip">
-                <string>Налаштування ОЗ</string>
+                <string>Налаштування ОЗ | Ctrl + A</string>
                </property>
                <property name="whatsThis">
-                <string>Налаштування ОЗ</string>
+                <string>Налаштування ОЗ | Ctrl + A</string>
                </property>
                <property name="text">
                 <string/>
@@ -961,13 +961,13 @@
              <item>
               <widget class="QPushButton" name="saveNoteButton">
                <property name="toolTip">
-                <string>Зберегти</string>
+                <string>Зберегти | Ctrl + S</string>
                </property>
                <property name="statusTip">
-                <string>Зберегти</string>
+                <string>Зберегти | Ctrl + S</string>
                </property>
                <property name="whatsThis">
-                <string>Зберегти</string>
+                <string>Зберегти | Ctrl + S</string>
                </property>
                <property name="text">
                 <string/>
@@ -980,13 +980,13 @@
              <item>
               <widget class="QPushButton" name="notificationButton">
                <property name="toolTip">
-                <string>Нагадати про подію</string>
+                <string>Нагадати про подію | Ctrl + R</string>
                </property>
                <property name="statusTip">
-                <string>Нагадати про подію</string>
+                <string>Нагадати про подію | Ctrl + R</string>
                </property>
                <property name="whatsThis">
-                <string>Нагадати про подію</string>
+                <string>Нагадати про подію | Ctrl + R</string>
                </property>
                <property name="text">
                 <string/>
@@ -1002,18 +1002,21 @@
          </item>
          <item row="0" column="0">
           <layout class="QVBoxLayout" name="verticalLayout_4">
+           <property name="sizeConstraint">
+            <enum>QLayout::SetDefaultConstraint</enum>
+           </property>
            <item>
             <layout class="QHBoxLayout" name="horizontalLayout_12">
              <item>
               <widget class="QPushButton" name="newNoteButton">
                <property name="toolTip">
-                <string>Створити нотатку</string>
+                <string>Створити нотатку | Ctrl + N</string>
                </property>
                <property name="statusTip">
-                <string>Створити нотатку</string>
+                <string>Створити нотатку | Ctrl + N</string>
                </property>
                <property name="whatsThis">
-                <string>Створити нотатку</string>
+                <string>Створити нотатку | Ctrl + N</string>
                </property>
                <property name="text">
                 <string/>
@@ -1026,47 +1029,72 @@
              <item>
               <widget class="QPushButton" name="deleteNoteButton">
                <property name="toolTip">
-                <string>Видалити</string>
+                <string>Видалити | Del</string>
                </property>
                <property name="statusTip">
-                <string>Видалити</string>
+                <string>Видалити | Del</string>
                </property>
                <property name="whatsThis">
-                <string>Видалити</string>
+                <string>Видалити | Del</string>
                </property>
                <property name="text">
                 <string/>
                </property>
                <property name="shortcut">
-                <string>Ctrl+D</string>
+                <string>Del</string>
                </property>
               </widget>
              </item>
              <item>
               <widget class="QPushButton" name="SearchButton">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>0</height>
+                </size>
+               </property>
                <property name="focusPolicy">
                 <enum>Qt::StrongFocus</enum>
                </property>
                <property name="toolTip">
-                <string>Знайти нотатку</string>
+                <string>Знайти нотатку | Ctrl + F</string>
                </property>
                <property name="statusTip">
-                <string>Знайти нотатку</string>
+                <string>Знайти нотатку | Ctrl + F</string>
                </property>
                <property name="whatsThis">
-                <string>Знайти нотатку</string>
+                <string>Знайти нотатку | Ctrl + F</string>
                </property>
                <property name="text">
                 <string/>
                </property>
                <property name="iconSize">
                 <size>
-                 <width>45</width>
-                 <height>45</height>
+                 <width>16</width>
+                 <height>16</height>
                 </size>
                </property>
                <property name="shortcut">
                 <string>Ctrl+F</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="listSearchButton">
+               <property name="toolTip">
+                <string>Відобразити результати пошуку | Ctrl + L</string>
+               </property>
+               <property name="statusTip">
+                <string>Відобразити результати пошуку | Ctrl + L</string>
+               </property>
+               <property name="whatsThis">
+                <string>Відобразити результати пошуку | Ctrl + L</string>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="shortcut">
+                <string>Ctrl+L</string>
                </property>
               </widget>
              </item>
@@ -1084,6 +1112,13 @@
               </spacer>
              </item>
             </layout>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_result_of_search">
+             <property name="text">
+              <string>Результати пошуку</string>
+             </property>
+            </widget>
            </item>
            <item>
             <widget class="QListWidget" name="notesShowList"/>
@@ -1294,7 +1329,7 @@
                 <string/>
                </property>
                <property name="pixmap">
-                <pixmap>../build-VENotes-Desktop_Qt_5_9_1_MinGW_32bit-Debug/debug/resources/Images/logoRealBlue.png</pixmap>
+                <pixmap>../build-VENotes-Desktop_Qt_5_9_1_MinGW_32bit-Release/resources/Images/logoRealBlue.png</pixmap>
                </property>
                <property name="scaledContents">
                 <bool>true</bool>
@@ -1559,27 +1594,28 @@
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <tabstops>
-  <tabstop>CancelButton</tabstop>
+  <tabstop>OkButton</tabstop>
   <tabstop>lineEdit_auth_email</tabstop>
   <tabstop>lineEdit_auth_pass</tabstop>
   <tabstop>pushButton_remind_account</tabstop>
   <tabstop>pushButton_new_account</tabstop>
-  <tabstop>calendarWidget</tabstop>
+  <tabstop>CancelButton</tabstop>
   <tabstop>lineEdit_reg_log</tabstop>
   <tabstop>lineEdit_reg_pass</tabstop>
   <tabstop>lineEdit_reg_pass_check</tabstop>
   <tabstop>lineEdit_reg_email</tabstop>
   <tabstop>pushButton_auth</tabstop>
-  <tabstop>OkButton</tabstop>
+  <tabstop>calendarWidget</tabstop>
   <tabstop>newNoteButton</tabstop>
   <tabstop>deleteNoteButton</tabstop>
   <tabstop>SearchButton</tabstop>
+  <tabstop>listSearchButton</tabstop>
   <tabstop>accountSettingsButton</tabstop>
   <tabstop>notesShowList</tabstop>
-  <tabstop>saveNoteButton</tabstop>
-  <tabstop>notificationButton</tabstop>
   <tabstop>notesName</tabstop>
   <tabstop>notesText</tabstop>
+  <tabstop>saveNoteButton</tabstop>
+  <tabstop>notificationButton</tabstop>
   <tabstop>stackedWidget</tabstop>
   <tabstop>lineEdit_remind_email</tabstop>
   <tabstop>pushButton_authorization</tabstop>
@@ -1594,8 +1630,8 @@
    <slot>close()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>328</x>
-     <y>517</y>
+     <x>82</x>
+     <y>29</y>
     </hint>
     <hint type="destinationlabel">
      <x>3</x>
@@ -1610,8 +1646,8 @@
    <slot>close()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>328</x>
-     <y>517</y>
+     <x>82</x>
+     <y>28</y>
     </hint>
     <hint type="destinationlabel">
      <x>516</x>
@@ -1626,8 +1662,8 @@
    <slot>close()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>294</x>
-     <y>497</y>
+     <x>82</x>
+     <y>28</y>
     </hint>
     <hint type="destinationlabel">
      <x>502</x>
@@ -1642,8 +1678,8 @@
    <slot>close()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>289</x>
-     <y>505</y>
+     <x>82</x>
+     <y>29</y>
     </hint>
     <hint type="destinationlabel">
      <x>507</x>

@@ -1,5 +1,6 @@
 #include "noteswindow.h"
 #include "ui_noteswindow.h"
+#include <QDesktopWidget>
 
 struct note {
     QString nameOfNote;
@@ -12,9 +13,10 @@ int openID = -1;
 QString noteLocation = "resources/Notes/";
 QString username = "";
 QList<note> notesList;
+QList<note> searchNotesList;
 QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
 QRegExp validExp("\\b[a-zA-Z0-9]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}\\b");
-bool isRegConnect = false, isAuthConnect = false, isRemindConnect = false;
+bool isRegConnect = false, isAuthConnect = false, isRemindConnect = false, isFocused = false;
 QString result1OfDialog, result2OfDialog;
 
 NotesWindow::NotesWindow(QWidget *parent) :
@@ -46,7 +48,7 @@ NotesWindow::~NotesWindow()
 
 bool NotesWindow::connectDB()
 {
-    db.setDatabaseName(qApp->applicationDirPath() + "/users_data.db");
+    db.setDatabaseName(qApp->applicationDirPath() + "/users_data.sqlite"); //qApp->applicationDirPath() + "/users_data.db"
 
     if(!db.open())
     {
@@ -93,7 +95,11 @@ void NotesWindow::registration()
         this->setFixedHeight(563);
         ui->pushButton_auth->hide();
     }
-    else this->setFixedHeight(548 + ui->pushButton_auth->height());
+    else
+    {
+        this->setFixedHeight(548 + ui->pushButton_auth->height());
+        ui->pushButton_auth->show();
+    }
 
     if(!isRegConnect)
     {
@@ -192,7 +198,6 @@ void NotesWindow::createAccount()
         {
             username = ui->lineEdit_reg_log->text();
             writeSettings();
-            this->setFixedSize(sizeHint());
             showNotes();
             QMessageBox::information(this, tr("Реєстрацію завершено"), "Новий обліковий запис було створено.\n");
             ui->lineEdit_reg_log->clear();
@@ -238,7 +243,9 @@ void NotesWindow::returnToAuth()
     authorization();
 }
 
-void NotesWindow::remindPassword() {}
+void NotesWindow::remindPassword() {
+    QMessageBox::information(this, tr("Відновлення паролю"), "Пароль відіслано на вказаний email\n");
+}
 
 void NotesWindow::setEnabledToRegOk()
 {
@@ -336,11 +343,15 @@ void NotesWindow::showNotes() {
     ui->newNoteButton->setAutoDefault(false);
     ui->stackedWidget->currentWidget()->setFocus();
     ui->newNoteButton->clearFocus();
+    ui->listSearchButton->hide();
+    ui->label_result_of_search->hide();
+    ui->notesText->setFixedWidth(377);
     this->setFixedSize((ui->stackedWidget->currentWidget()->sizeHint()));
-    this->setFixedWidth(this->width() + 100);
+    //this->setFixedWidth(this->width() + 100);
+    this->setFixedWidth(640);
     this->setFixedHeight(600);
     readXML();
-    makeListOfNotes();
+    makeListOfNotes(false);
     createMenu();
     ui->labelLogin->setText("Вітаємо, " + username + "!");
 }
@@ -532,45 +543,57 @@ void NotesWindow::on_saveNoteButton_clicked() {
     ui->saveNoteButton->clearFocus();
 
     WriteXML();
-    makeListOfNotes();
+    makeListOfNotes(false);
 }
 
-void NotesWindow::makeListOfNotes() {
+void NotesWindow::makeListOfNotes(bool isSearchList) {
     ui->notesShowList->clear();
-    for(int i = 0; i < notesList.size(); i++) {
+
+    QList<note> list;
+    if(isSearchList)
+         list = searchNotesList;
+    else list = notesList;
+
+
+    for(int i = 0; i < list.size(); i++) {
         QString obj = "Назва: ";
+
         int lenght = 0;
         int max_symb = 21;
-        for(int j = 0; j < notesList[i].nameOfNote.size(); j++)
+        for(int j = 0; j < list[i].nameOfNote.size(); j++)
         {
             int temp = j;
-            j = notesList[i].nameOfNote.indexOf(" ", j);
+            j = list[i].nameOfNote.indexOf(" ", j);
             if(j == -1)
             {
-                if(notesList[i].nameOfNote.size() - temp + lenght > max_symb)
+                if(list[i].nameOfNote.size() - temp + lenght > max_symb)
                 {
                     obj.remove(obj.size() - 1, 1);
                     obj += "\r\n";
                 }
 
-                obj += notesList[i].nameOfNote.mid(temp, notesList[i].nameOfNote.size() - temp) + "\r\n   ---------------------------------   \n";
+                obj += list[i].nameOfNote.mid(temp, list[i].nameOfNote.size() - temp) + "\r\n   ---------------------------------   \n";
                 lenght = 0;
                 break;
             }
             if(lenght + j - temp > max_symb)
             {
                 obj.remove(obj.size() - 1, 1);
-                obj += "\r\n" + notesList[i].nameOfNote.mid(temp, j - temp + 1);
+                obj += "\r\n" + list[i].nameOfNote.mid(temp, j - temp + 1);
                 lenght = j - temp + 1;
                 max_symb = 25;
             }
             else
             {
-                obj += notesList[i].nameOfNote.mid(temp, j - temp + 1);
+                obj += list[i].nameOfNote.mid(temp, j - temp + 1);
                 lenght += j - temp + 1;
             }
         }
-        QString comp = notesList[i].textOfNote.mid(0, notesList[i].textOfNote.indexOf('\n'));
+
+        if( obj == "Назва: ")
+            obj += "\r\n   ---------------------------------   \n";
+
+        QString comp = list[i].textOfNote.mid(0, list[i].textOfNote.indexOf('\n'));
         for(int j = 0; j < 20; j++) {
                 obj += comp[j];
         }
@@ -623,9 +646,12 @@ void NotesWindow::on_newNoteButton_clicked() {
 }
 
 void NotesWindow::on_deleteNoteButton_clicked() {
-    for(int i = 0; i < notesList.size(); i++) {
+    for(int i = 0, j = 0; i < notesList.size(); i++, j++) {
         if(openID == notesList[i].ID) {
             notesList.erase(notesList.begin() + i);
+        }
+        if(j < searchNotesList.size() && openID == searchNotesList[j].ID) {
+            searchNotesList.erase(searchNotesList.begin() + j);
         }
     }
     openID = -1;
@@ -637,7 +663,9 @@ void NotesWindow::on_deleteNoteButton_clicked() {
     ui->notificationButton->setEnabled(false);
     ui->deleteNoteButton->clearFocus();
     WriteXML();
-    makeListOfNotes();
+    makeListOfNotes(false);
+    makeListOfNotes(true);
+
 }
 
 void NotesWindow::on_notificationButton_clicked()
@@ -688,7 +716,47 @@ void NotesWindow::on_OkButton_clicked()
 
 void NotesWindow::on_SearchButton_clicked()
 {
-    //организуй поиск)
+    FindDialog * search = new FindDialog(this);
+    search->show();
+    search->exec();
+    ui->SearchButton->clearFocus();
+}
+
+void NotesWindow::search(QString str, bool searchInName, bool searchInText)
+{
+    searchNotesList.clear();
+
+    if(searchInName && searchInText || (!searchInName && !searchInText))
+    {
+        for(int i = 0; i < notesList.size(); i++) {
+            if(notesList[i].nameOfNote.contains(str.toLower(), Qt::CaseInsensitive) && notesList[i].textOfNote.contains(str.toLower(), Qt::CaseInsensitive))
+                searchNotesList.push_back(notesList[i]);
+        }
+    }
+    else
+    {
+        if(searchInName)
+        {
+            for(int i = 0; i < notesList.size(); i++) {
+                if(notesList[i].nameOfNote.contains(str.toLower(), Qt::CaseInsensitive))
+                    searchNotesList.push_back(notesList[i]);
+            }
+        }
+        if(searchInText)
+        {
+            for(int i = 0; i < notesList.size(); i++) {
+                if(notesList[i].textOfNote.contains(str.toLower(), Qt::CaseInsensitive))
+                {
+                    searchNotesList.push_back(notesList[i]);
+                }
+            }
+        }
+    }
+    ui->listSearchButton->show();
+    ui->listSearchButton->setFocus();
+    ui->label_result_of_search->show();
+    isFocused = true;
+    makeListOfNotes(true);
 }
 
 void NotesWindow::on_pushButton_auth_clicked()
@@ -739,4 +807,46 @@ void NotesWindow::getDataFromDialog(QString s, QString s2, bool email_or_pass)
     if(email_or_pass)
         refreshEmail();
     else refreshPassword();
+}
+
+void NotesWindow::on_listSearchButton_clicked()
+{
+    makeListOfNotes(!isFocused);
+    if(isFocused)
+    {
+        isFocused = false;
+        ui->listSearchButton->clearFocus();
+        ui->label_result_of_search->hide();
+    }
+    else
+    {
+        isFocused = true;
+        ui->listSearchButton->setFocus();
+        ui->label_result_of_search->show();
+    }
+}
+
+void NotesWindow::on_notesShowList_clicked(const QModelIndex &index)
+{
+    QString name = ui->notesShowList->currentItem()->text();
+
+    int e_pos = name.lastIndexOf("\n");
+    e_pos = name.lastIndexOf("\n", e_pos - 1);
+    e_pos = name.lastIndexOf("\n", e_pos - 1);
+    e_pos--;
+    name = name.mid(7, e_pos - 7);
+    int pos = name.indexOf("\n"), temp_pos = 0;
+    while(pos != -1)
+    {
+        name.remove(pos - 1, 1);
+        name.replace(pos - 1, 1, " ");
+        temp_pos = pos + 1;
+        pos = name.indexOf("\n", temp_pos);
+    }
+    for(int i = 0; i < notesList.size(); i++) {
+        if(notesList[i].nameOfNote == name) {
+            openID = notesList[i].ID;
+            break;
+        }
+    }
 }

@@ -2,6 +2,7 @@
 #define FINDDIALOG_H
 
 #include <QDialog>
+class NotesWindow;
 
 namespace Ui {
 class FindDialog;
@@ -17,6 +18,12 @@ public:
 
 private:
     Ui::FindDialog *ui;
+    NotesWindow * notes;
+
+private slots:
+    void setEnabledToOk();
+    void on_ok_search_clicked();
+    void returnData();
 };
 
 #endif // FINDDIALOG_H
