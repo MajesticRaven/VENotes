@@ -96,14 +96,6 @@ private slots:
 
     void on_notificationButton_clicked();
 
-    /*
-     *Это нужно для работу напоминание в том же окне, а не в диалоговом окне
-     *
-    void on_CancelButton_clicked();
-
-    void on_OkButton_clicked();
-    */
-
     void on_SearchButton_clicked();
 
     void on_pushButton_auth_clicked();

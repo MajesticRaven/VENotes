@@ -48,7 +48,7 @@ NotesWindow::~NotesWindow()
 
 bool NotesWindow::connectDB()
 {
-    db.setDatabaseName(qApp->applicationDirPath() + "/users_data.sqlite"); //qApp->applicationDirPath() + "/users_data.db"
+    db.setDatabaseName(qApp->applicationDirPath() + "/resources/users_data.sqlite");
 
     if(!db.open())
     {
@@ -347,7 +347,6 @@ void NotesWindow::showNotes() {
     ui->label_result_of_search->hide();
     ui->notesText->setFixedWidth(377);
     this->setFixedSize((ui->stackedWidget->currentWidget()->sizeHint()));
-    //this->setFixedWidth(this->width() + 100);
     this->setFixedWidth(640);
     this->setFixedHeight(600);
     readXML();
@@ -672,9 +671,6 @@ void NotesWindow::on_notificationButton_clicked()
 {
     if(openID != -1)
     {
-        //Закомментировал то, что нужно для вызова календаря в том же окне, а не в диалоговом коне
-        //ui->stackedWidget->setCurrentIndex(3);
-        //this->setFixedSize(ui->stackedWidget->currentWidget()->sizeHint());
         Calendar * calendar = new Calendar(this);
         calendar->show();
         calendar->exec();
@@ -691,28 +687,6 @@ void NotesWindow::setDate(QString str)
         }
     }
 }
-
-/*
- *Это нужно для работу напоминание в том же окне, а не в диалоговом окне
- *
-void NotesWindow::on_CancelButton_clicked()
-{
-    ui->notificationButton->clearFocus();
-    showNotes();
-}
-
-void NotesWindow::on_OkButton_clicked()
-{
-    for(int i = 0; i < notesList.size(); i++) {
-        if(openID == notesList[i].ID) {
-            notesList[i].dateOfNotification = ui->calendarWidget->selectedDate().toString();
-            break;
-        }
-    }
-    ui->notificationButton->clearFocus();
-    showNotes();
-}
-*/
 
 void NotesWindow::on_SearchButton_clicked()
 {
