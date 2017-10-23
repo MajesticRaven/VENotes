@@ -81,6 +81,8 @@ void NotesWindow::registration()
     ui->buttonBox_in_reg->button(QDialogButtonBox::Cancel)->setText(tr("Скасувати"));
     ui->lineEdit_reg_log->clearFocus();
     ui->pushButton_auth->setCursor(Qt::PointingHandCursor);
+    QPixmap img("resources/Images/logoRealBlue.png");
+    ui->label_auth_logo_2->setPixmap(img);
 
     validator = new QRegExpValidator(validExp, ui->lineEdit_reg_email);
     ui->lineEdit_reg_email->setValidator(validator);
@@ -124,7 +126,8 @@ void NotesWindow::authorization()
     ui->buttonBox_in_auth->button(QDialogButtonBox::Cancel)->setShortcut(Qt::Key_Cancel);
     ui->buttonBox_in_auth->button(QDialogButtonBox::Ok)->setText(tr("Увійти"));
     ui->buttonBox_in_auth->button(QDialogButtonBox::Cancel)->setText(tr("Скасувати"));
-
+    QPixmap img("resources/Images/logoRealBlue.png");
+    ui->label_auth_logo->setPixmap(img);
     ui->pushButton_new_account->setCursor(Qt::PointingHandCursor);
     ui->pushButton_remind_account->setCursor(Qt::PointingHandCursor);
 
@@ -152,7 +155,8 @@ void NotesWindow::remind()
     ui->buttonBox_in_remind->button(QDialogButtonBox::Cancel)->setShortcut(Qt::Key_Cancel);
     ui->buttonBox_in_remind->button(QDialogButtonBox::Ok)->setText(tr("Відновити"));
     ui->buttonBox_in_remind->button(QDialogButtonBox::Cancel)->setText(tr("Скасувати"));
-
+    QPixmap img("resources/Images/logoRealBlue.png");
+    ui->label_auth_logo_3->setPixmap(img);
     ui->pushButton_registration->setCursor(Qt::PointingHandCursor);
     ui->pushButton_authorization->setCursor(Qt::PointingHandCursor);
 

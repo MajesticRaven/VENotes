@@ -43,3 +43,5 @@ FORMS += \
     finddialog.ui
 
     win32:RC_ICONS += logo_icon.ico
+
+RC_FILE = recources.rc
